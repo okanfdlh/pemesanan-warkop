@@ -113,19 +113,23 @@ x-init="
                 
                 <ul class="py-2 text-sm text-gray-800">
                     <li>
-                        <button @click="selectedCategory = 'coffe'; openDropdown = false; setCategory('coffe')"
+                        <button @click="selectedCategory = 'all'; openDropdown = false; localStorage.setItem('selectedCategory', 'all')"
+                            class="block px-4 py-2 hover:bg-green-100 w-full text-left">📋 Semua Menu</button>
+                    </li>
+                    <li>
+                        <button @click="selectedCategory = 'coffe'; openDropdown = false; localStorage.setItem('selectedCategory', 'coffe')"
                             class="block px-4 py-2 hover:bg-green-100 w-full text-left">☕ Coffee</button>
                     </li>
                     <li>
-                        <button @click="selectedCategory = 'nCoffe'; openDropdown = false; setCategory('nCoffe')"
-                             class="block px-4 py-2 hover:bg-green-100 w-full text-left">🥤 Non Coffee</button>
+                        <button @click="selectedCategory = 'nCoffe'; openDropdown = false; localStorage.setItem('selectedCategory', 'nCoffe')"
+                            class="block px-4 py-2 hover:bg-green-100 w-full text-left">🥤 Non Coffee</button>
                     </li>
                     <li>
-                        <button @click="selectedCategory = 'makanan'; openDropdown = false; setCategory('makanan')"
+                        <button @click="selectedCategory = 'makanan'; openDropdown = false; localStorage.setItem('selectedCategory', 'makanan')"
                             class="block px-4 py-2 hover:bg-green-100 w-full text-left">🍽️ Makanan</button>
                     </li>
                     <li>
-                        <button @click="selectedCategory = 'cemilan'; openDropdown = false; setCategory('cemilan')"
+                        <button @click="selectedCategory = 'cemilan'; openDropdown = false; localStorage.setItem('selectedCategory', 'cemilan')"
                             class="block px-4 py-2 hover:bg-green-100 w-full text-left">🍩 Cemilan</button>
                     </li>
                 </ul>
@@ -133,53 +137,51 @@ x-init="
         </div>
     </nav>
 
-    {{-- daftar --}}
     <div class="flex flex-col gap-8">
-        <div class="flex flex-col gap-8">
-            @php
-        $categories = ['coffe' => 'Coffee', 'nCoffe' => 'Non Coffee', 'makanan' => 'Makanan', 'cemilan' => 'Cemilan'];
-    @endphp
-    @foreach($categories as $key => $categoryName)
-        <div id="{{ $key }}" x-show="selectedCategory === '{{ $key }}' || selectedCategory === 'all'" class="w-full p-4 sm:p-6">
-            <div class="pb-6 font-bold text-2xl sm:text-3xl text-center text-gray-800">
-                <h3>{{ $categoryName }}</h3>
-                <div class="w-24 h-1 mx-auto bg-green-500 rounded-full mt-2"></div>
-            </div>
-            <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6 justify-center">
-                @foreach($products->where('category', $key) as $product)
-                    <div class="bg-white p-4 border rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300">
-                        <img class="w-full h-40 sm:h-48 object-cover rounded-lg" src="{{ asset($product->image) }}">
-                        <div class="pt-3 text-center">
-                            <p class="font-semibold text-lg text-gray-800">{{ $product->name }}</p>
-                            <p class="text-green-600 font-bold">Rp {{ number_format($product->price, 2, ',', '.') }}</p>
+        @php
+            $categories = ['coffe' => 'Coffee', 'nCoffe' => 'Non Coffee', 'makanan' => 'Makanan', 'cemilan' => 'Cemilan'];
+        @endphp
+        @foreach($categories as $key => $categoryName)
+            <div id="{{ $key }}" x-show="selectedCategory === 'all' || selectedCategory === '{{ $key }}'" 
+                 class="w-full p-4 sm:p-6">
+                <div class="pb-6 font-bold text-2xl sm:text-3xl text-center text-gray-800">
+                    <h3>{{ $categoryName }}</h3>
+                    <div class="w-24 h-1 mx-auto bg-green-500 rounded-full mt-2"></div>
+                </div>
+                <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6 justify-center">
+                    @foreach($products->where('category', $key) as $product)
+                        <div class="bg-white p-4 border rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300">
+                            <img class="w-full h-40 sm:h-48 object-cover rounded-lg" src="{{ asset($product->image) }}">
+                            <div class="pt-3 text-center">
+                                <p class="font-semibold text-lg text-gray-800">{{ $product->name }}</p>
+                                <p class="text-green-600 font-bold">Rp {{ number_format($product->price, 2, ',', '.') }}</p>
+                            </div>
+
+                            <!-- Tombol + - dan Jumlah -->
+                            <div class="flex items-center justify-center mt-3">
+                                <button onclick="decreaseQuantity({{ $product->id }})" 
+                                        class="px-3 py-1 bg-gray-300 text-gray-700 rounded-l-lg hover:bg-gray-400">−</button>
+                                <span id="quantity-{{ $product->id }}" 
+                                      class="px-4 py-1 bg-white border border-gray-300 text-gray-800 font-semibold">1</span>
+                                <button onclick="increaseQuantity({{ $product->id }})" 
+                                        class="px-3 py-1 bg-gray-300 text-gray-700 rounded-r-lg hover:bg-gray-400">+</button>
+                            </div>
+
+                            <!-- Tombol Pesan -->
+                            <button 
+                                onclick="addToCart({{ $product->id }})" 
+                                class="mt-3 w-full bg-green-500 text-white font-semibold py-2 rounded-lg hover:bg-green-600 transition-all">
+                                Pesan
+                            </button>
                         </div>
-
-                        <!-- Tombol + - dan Jumlah -->
-                        <div class="flex items-center justify-center mt-3">
-                            <button onclick="decreaseQuantity({{ $product->id }})" 
-                                    class="px-3 py-1 bg-gray-300 text-gray-700 rounded-l-lg hover:bg-gray-400">−</button>
-                            <span id="quantity-{{ $product->id }}" 
-                                  class="px-4 py-1 bg-white border border-gray-300 text-gray-800 font-semibold">1</span>
-                            <button onclick="increaseQuantity({{ $product->id }})" 
-                                    class="px-3 py-1 bg-gray-300 text-gray-700 rounded-r-lg hover:bg-gray-400">+</button>
-                        </div>
-
-                        <!-- Tombol Pesan -->
-                        <button 
-                            onclick="addToCart({{ $product->id }})" 
-                            class="mt-3 w-full bg-green-500 text-white font-semibold py-2 rounded-lg hover:bg-green-600 transition-all">
-                            Pesan
-                        </button>
-                    </div>
-                @endforeach
+                    @endforeach
+                </div>
             </div>
-        </div>
-    @endforeach
+        @endforeach
+    </div>
 </div>
-      
-</div>
-
 </section>
+
 
 <section id="about" class="bg-white py-8">
     
