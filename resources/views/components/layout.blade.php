@@ -227,6 +227,23 @@ function setCategory(category) {
             1024: { slidesPerView: 3 },
         }
     });
+    
+    function updatePaymentStatus(orderId) {
+    fetch(`/order/${orderId}/update-payment-status`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').getAttribute("content"),
+        },
+    })
+    .then(response => response.json())
+    .then(data => {
+        alert(data.message);
+        location.reload(); // Refresh halaman setelah update status
+    })
+    .catch(error => console.error("Error:", error));
+}
+
     </script>
     
     </body>

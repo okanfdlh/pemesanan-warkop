@@ -57,7 +57,7 @@
     <!-- Badge jumlah pesanan -->
     <span x-show="cartCount > 0" 
           x-text="cartCount"
-          class="absolute -top-2 -right-2 bg-red-600 text-white text-xs font-bold px-2 py-1 rounded-full 
+          class="absolute -top-1 bg-red-600 text-white text-xs font-bold px-2 py-1 rounded-full 
                  transform translate-x-1/2 -translate-y-1/2">
     </span>
 </a>

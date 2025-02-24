@@ -53,5 +53,18 @@ class OrderController extends Controller
 
         return $pdf->download("Struk_Order_{$order->order_id}.pdf");
     }
+    public function updatePaymentStatus($orderId)
+{
+    $order = Order::where('order_id', $orderId)->first();
+
+    if (!$order) {
+        return response()->json(['message' => 'Order tidak ditemukan'], 404);
+    }
+
+    $order->payment_status = 'sukses'; // Ubah status jadi sukses
+    $order->save();
+
+    return response()->json(['message' => 'Status pembayaran berhasil diperbarui menjadi sukses']);
+}
 }
 

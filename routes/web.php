@@ -31,3 +31,4 @@ Route::get('/menu', [MenuController::class, 'index'])->name('menu');
 Route::get('/payment/success', [OrderController::class, 'paymentSuccess'])->name('payment.success');
 Route::get('/order/receipt/{order_id}', [OrderController::class, 'printReceipt'])->name('order.receipt');
 Route::get('/order/receipt/{order_id}/pdf', [OrderController::class, 'downloadReceiptPDF'])->name('order.receipt.pdf');
+Route::post('/order/{orderId}/update-payment-status', [OrderController::class, 'updatePaymentStatus']);

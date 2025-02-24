@@ -11,11 +11,18 @@
                 Rp {{ number_format($order->total_price, 2, ',', '.') }}
             </p>
 
-            <div class="text-center">
+            <div class="text-center space-y-4">
+                <!-- Tombol Bayar -->
                 <button id="pay-button" 
                     class="w-full px-6 py-3 bg-green-500 text-white text-lg font-semibold rounded-lg shadow-md transition duration-300 transform hover:bg-green-600 hover:scale-105">
                     Bayar Sekarang
                 </button>
+
+                <!-- Tombol Kembali ke Keranjang -->
+                <a href="/cart" 
+                    class="block w-full px-6 py-3 bg-gray-400 text-white text-lg font-semibold rounded-lg shadow-md transition duration-300 transform hover:bg-gray-500 hover:scale-105 text-center">
+                    Kembali ke Keranjang
+                </a>
             </div>
         @else
             <p class="text-red-500 text-center text-lg">Terjadi kesalahan, pesanan tidak ditemukan.</p>
