@@ -80,7 +80,13 @@ Alternatively if you want to just have a single hero
 
 -->
 
-<section id="dMenu" class="bg-white pt-20 pb-8" x-data="{ selectedCategory: 'all' }">
+<section id="dMenu" class="bg-white pt-20 pb-8" x-data="{ 
+    selectedCategory: localStorage.getItem('selectedCategory') || 'all' 
+}" 
+x-init="
+    window.addEventListener('cart-updated', event => { 
+        cartCount = event.detail.count; 
+    });">
 
 <div class="container mx-auto flex items-center flex-wrap pt-4 pb-12">
 
@@ -107,19 +113,19 @@ Alternatively if you want to just have a single hero
                 
                 <ul class="py-2 text-sm text-gray-800">
                     <li>
-                        <button @click="selectedCategory = 'coffe'; openDropdown = false"
+                        <button @click="selectedCategory = 'coffe'; openDropdown = false; setCategory('coffe')"
                             class="block px-4 py-2 hover:bg-green-100 w-full text-left">☕ Coffee</button>
                     </li>
                     <li>
-                        <button @click="selectedCategory = 'nCoffe'; openDropdown = false"
-                            class="block px-4 py-2 hover:bg-green-100 w-full text-left">🥤 Non Coffee</button>
+                        <button @click="selectedCategory = 'nCoffe'; openDropdown = false; setCategory('nCoffe')"
+                             class="block px-4 py-2 hover:bg-green-100 w-full text-left">🥤 Non Coffee</button>
                     </li>
                     <li>
-                        <button @click="selectedCategory = 'makanan'; openDropdown = false"
+                        <button @click="selectedCategory = 'makanan'; openDropdown = false; setCategory('makanan')"
                             class="block px-4 py-2 hover:bg-green-100 w-full text-left">🍽️ Makanan</button>
                     </li>
                     <li>
-                        <button @click="selectedCategory = 'cemilan'; openDropdown = false"
+                        <button @click="selectedCategory = 'cemilan'; openDropdown = false; setCategory('cemilan')"
                             class="block px-4 py-2 hover:bg-green-100 w-full text-left">🍩 Cemilan</button>
                     </li>
                 </ul>
@@ -170,92 +176,7 @@ Alternatively if you want to just have a single hero
         </div>
     @endforeach
 </div>
-        <!-- Coffee  -->
-        {{-- <div class="w-full">
-            <div id="coffe" x-show="selectedCategory === 'coffe' || selectedCategory === 'all'" class="w-full p-6">
-                <div class="pb-6 font-semibold text-2xl text-center">
-                    <h3>Coffee</h3>
-                </div>
-                <div class="flex flex-wrap gap-4 justify-center ">
-                    <div class="w-40 m-1">
-                        <a href="#">
-                            <img class="hover:grow hover:shadow-lg" src="https://images.unsplash.com/photo-1555982105-d25af4182e4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=400&h=400&q=80">
-                            <div class="pt-3 flex items-center justify-between">
-                                <p>Product Name</p>
-                            </div>
-                            <p class="pt-1 text-gray-900">£9.99</p>
-                            <svg class="h-8 w-8 fill-current text-gray-500 hover:text-green-700" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
-                                <path d="M2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2zm6.5 4.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3a.5.5 0 0 1 1 0" />
-                            </svg>
-                        </a>
-                    </div>
-                    
-                </div>
-            </div> --}}
-    {{-- non coffe list --}}
-            {{-- <div id="nCoffe" x-show="selectedCategory === 'nCoffe' || selectedCategory === 'all'" class="w-full p-6">
-                <div class="pb-6 font-semibold text-2xl text-center">
-                    <h3>Non Coffee</h3>
-                </div>
-                <div class="flex flex-wrap gap-4 justify-center">
-                    <div class=" w-40 m-1">
-                        <a href="#">
-                            <img class="hover:grow hover:shadow-lg" src="https://images.unsplash.com/photo-1508423134147-addf71308178?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=400&h=400&q=80">
-                            <div class="pt-3 flex items-center justify-between">
-                                <p>Product Name</p>
-                            </div>
-                            <p class="pt-1 text-gray-900">£9.99</p>
-                            <svg class="h-8 w-8 fill-current text-gray-500 hover:text-green-700" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
-                                <path d="M2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2zm6.5 4.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3a.5.5 0 0 1 1 0" />
-                            </svg>
-                        </a>
-                    </div>
-                </div>
-            </div> --}}
-        
-    
-        <!-- Makanan -->
-            {{-- <div id="makanan" x-show="selectedCategory === 'makanan' || selectedCategory === 'all'" class="w-full p-6">
-                <div class="pb-6 font-semibold text-2xl text-center">
-                    <h3>Makanan</h3>
-                </div>
-                <div class="flex flex-wrap gap-4 justify-center">
-                    <div class="w-40 m-1">
-                        <a href="#">
-                            <img class="hover:grow hover:shadow-lg" src="https://images.unsplash.com/reserve/LJIZlzHgQ7WPSh5KVTCB_Typewriter.jpg?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=400&h=400&q=80">
-                            <div class="pt-3 flex items-center justify-between">
-                                <p>Product Name</p>
-                            </div>
-                            <p class="pt-1 text-gray-900">£9.99</p>
-                            <svg class="h-8 w-8 fill-current text-gray-500 hover:text-green-700" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
-                                <path d="M2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2zm6.5 4.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3a.5.5 0 0 1 1 0" />
-                            </svg>
-                        </a>
-                    </div>
-                </div>
-            </div> --}}
-    {{-- cemilan --}}
-            {{-- <div id="cemilan" x-show="selectedCategory === 'cemilan' || selectedCategory === 'all'" class="w-full p-6">
-                <div class="pb-6 font-semibold text-2xl text-center">
-                    <h3>Cemilan</h3>
-                </div>
-                <div class="flex flex-wrap gap-4 justify-center">
-                    <div class="w-40 m-1">
-                        <a href="#">
-                            <img class="hover:grow hover:shadow-lg" src="https://images.unsplash.com/photo-1449247709967-d4461a6a6103?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=400&h=400&q=80">
-                            <div class="pt-3 flex items-center justify-between">
-                                <p>Product Name</p>
-                            </div>
-                            <p class="pt-1 text-gray-900">£9.99</p>
-                            <svg class="h-8 w-8 fill-current text-gray-500 hover:text-green-700" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
-                                <path d="M2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2zm6.5 4.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3a.5.5 0 0 1 1 0" />
-                            </svg>
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div> --}}
+      
 </div>
 
 </section>

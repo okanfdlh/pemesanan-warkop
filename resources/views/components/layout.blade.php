@@ -153,45 +153,57 @@
     </div>
     </footer>
     <script>
-      // tambah data
-      function addToCart(productId) {
-    let quantity = document.getElementById('quantity-' + productId).innerText;
+        // tambah data
+        function addToCart(productId) {
+      let quantity = document.getElementById('quantity-' + productId).innerText;
+  
+      fetch("{{ route('cart.add') }}", {
+          method: "POST",
+          headers: {
+              "Content-Type": "application/json",
+              "X-CSRF-TOKEN": "{{ csrf_token() }}"
+          },
+          body: JSON.stringify({
+              product_id: productId,
+              quantity: quantity
+          })
+      })
+      .then(response => response.json())
+      .then(data => {
+          alert(data.message); // Notifikasi sukses
+  
+          // Refresh halaman setelah pesanan ditambahkan
+          setTimeout(() => {
+              window.location.reload();
+          }, 500); // Delay 0.5 detik untuk pengalaman yang lebih smooth
+      })
+      .catch(error => console.error("Error:", error));
+  }
+  
+  
+      function increaseQuantity(productId) {
+          let quantitySpan = document.getElementById('quantity-' + productId);
+          quantitySpan.innerText = parseInt(quantitySpan.innerText) + 1;
+      }
+  
+      function decreaseQuantity(productId) {
+          let quantitySpan = document.getElementById('quantity-' + productId);
+          if (parseInt(quantitySpan.innerText) > 1) {
+              quantitySpan.innerText = parseInt(quantitySpan.innerText) - 1;
+          }
+      }
+      document.addEventListener("DOMContentLoaded", function () {
+        let lastCategory = localStorage.getItem('lastCategory');
+        if (lastCategory) {
+            document.querySelector("[x-data]").setAttribute("x-data", `{ selectedCategory: '${lastCategory}' }`);
+        }
+    });
 
-    fetch("{{ route('cart.add') }}", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-            "X-CSRF-TOKEN": "{{ csrf_token() }}"
-        },
-        body: JSON.stringify({
-            product_id: productId,
-            quantity: quantity
-        })
-    })
-    .then(response => response.json())
-    .then(data => {
-        alert(data.message); // Notifikasi sukses
-
-        // Refresh halaman setelah pesanan ditambahkan
-        setTimeout(() => {
-            window.location.reload();
-        }, 500); // Delay 0.5 detik untuk pengalaman yang lebih smooth
-    })
-    .catch(error => console.error("Error:", error));
+// Simpan kategori saat user memilih
+function setCategory(category) {
+    localStorage.setItem("selectedCategory", category);
 }
 
-
-    function increaseQuantity(productId) {
-        let quantitySpan = document.getElementById('quantity-' + productId);
-        quantitySpan.innerText = parseInt(quantitySpan.innerText) + 1;
-    }
-
-    function decreaseQuantity(productId) {
-        let quantitySpan = document.getElementById('quantity-' + productId);
-        if (parseInt(quantitySpan.innerText) > 1) {
-            quantitySpan.innerText = parseInt(quantitySpan.innerText) - 1;
-        }
-    }
 // swiper
     var swiper = new Swiper(".mySwiper", {
         slidesPerView: 1,

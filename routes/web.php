@@ -5,6 +5,7 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\MenuController;
+use App\Http\Controllers\OrderController;
 
 Route::get('/', function () {
     return view('home');
@@ -25,5 +26,8 @@ Route::put('/cart/update/{id}', [CartController::class, 'update'])->name('cart.u
 Route::delete('/cart/remove/{id}', [CartController::class, 'remove'])->name('cart.remove');
 Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout');
 Route::post('/checkout/process', [CheckoutController::class, 'processCheckout'])->name('checkout.process');
-Route::get('/payment/success', [CheckoutController::class, 'success'])->name('payment.success');
+
 Route::get('/menu', [MenuController::class, 'index'])->name('menu');
+Route::get('/payment/success', [OrderController::class, 'paymentSuccess'])->name('payment.success');
+Route::get('/order/receipt/{order_id}', [OrderController::class, 'printReceipt'])->name('order.receipt');
+Route::get('/order/receipt/{order_id}/pdf', [OrderController::class, 'downloadReceiptPDF'])->name('order.receipt.pdf');

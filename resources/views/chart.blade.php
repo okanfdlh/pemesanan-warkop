@@ -67,7 +67,8 @@
                 <!-- Nomor Telepon -->
                 <div class="mb-4">
                     <label for="phone" class="block font-medium text-gray-700">No. Telepon</label>
-                    <input type="tel" id="phone" name="phone" class="w-full p-2 border rounded-lg focus:ring-2 focus:ring-green-500" required>
+                    <input type="tel" id="phone" name="phone" class="w-full p-2 border rounded-lg focus:ring-2 focus:ring-green-500"
+                        pattern="[0-9]+" inputmode="numeric" oninput="this.value = this.value.replace(/[^0-9]/g, '')" required>
                 </div>
 
                 <!-- Catatan Pesanan -->
@@ -89,4 +90,5 @@
         </div>
     @endif
 </div>
+
 @endsection
