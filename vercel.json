@@ -33,12 +33,13 @@
         "DB_PASSWORD": "uT078Mv8XZ",
         "MIDTRANS_SERVER_KEY":"SB-Mid-server-qelmU708i7fjhg03neRY5GdM",
         "MIDTRANS_CLIENT_KEY":"SB-Mid-client-sWoDILfzpQlLD4e6",
-        "MIDTRANS_IS_PRODUCTION":"false",
+        "MIDTRANS_IS_PRODUCTION":"f alse",
         "MIDTRANS_MERCHANT_ID":"G499536360"
     },
     "build": {
         "env": {
-            "PHP_INI_SCAN_DIR": "/path/to/api"
+            "PHP_INI_SCAN_DIR": "/path/to/api",
+            "PHP_EXTENSIONS": "curl, pgsql, pdo_pgsql"
         }
     }
 }
