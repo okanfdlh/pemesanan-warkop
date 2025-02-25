@@ -30,6 +30,10 @@
         "DB_PORT": "3306",
         "DB_DATABASE": "if0_37050933_hitam",
         "DB_USERNAME": "if0_37050933",
-        "DB_PASSWORD": "uT078Mv8XZ"
+        "DB_PASSWORD": "uT078Mv8XZ",
+        "MIDTRANS_SERVER_KEY":"SB-Mid-server-qelmU708i7fjhg03neRY5GdM",
+        "MIDTRANS_CLIENT_KEY":"SB-Mid-client-sWoDILfzpQlLD4e6",
+        "MIDTRANS_IS_PRODUCTION":"false",
+        "MIDTRANS_MERCHANT_ID":"G499536360"
     }
 }
