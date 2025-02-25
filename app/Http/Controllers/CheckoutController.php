@@ -36,7 +36,7 @@ class CheckoutController extends Controller
             'order_id' => $orderId,
             'customer_name' => $request->name,
             'customer_phone' => $request->phone,
-            'notes' => $request->note, // Perbaiki typo dari 'notes' ke 'note'
+            'notes' => $request->notes, // Perbaiki typo dari 'notes' ke 'note'
             'total_price' => $totalAmount,
             'payment_status' => 'pending',
         ]);
