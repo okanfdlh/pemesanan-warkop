@@ -26,10 +26,10 @@
         "LOG_CHANNEL": "stderr",
         "SESSION_DRIVER": "cookie",
         "DB_CONNECTION": "mysql",
-        "DB_HOST": "sql12.freesqldatabase.com",
+        "DB_HOST": "sql301.infinityfree.com",
         "DB_PORT": "3306",
-        "DB_DATABASE": "sql12764435",
-        "DB_USERNAME": "sql12764435",
-        "DB_PASSWORD": "1Ja1dmxLW1"
+        "DB_DATABASE": "if0_37050933_hitam",
+        "DB_USERNAME": "if0_37050933",
+        "DB_PASSWORD": "uT078Mv8XZ"
     }
 }
