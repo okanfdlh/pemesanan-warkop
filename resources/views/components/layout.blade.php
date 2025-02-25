@@ -236,13 +236,30 @@ function setCategory(category) {
             "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').getAttribute("content"),
         },
     })
-    .then(response => response.json())
-    .then(data => {
-        alert(data.message);
-        location.reload(); // Refresh halaman setelah update status
-    })
-    .catch(error => console.error("Error:", error));
-}
+        .then(response => response.json())
+        .then(data => {
+            alert(data.message);
+            location.reload(); // Refresh halaman setelah update status
+        })
+        .catch(error => console.error("Error:", error));
+    }
+
+    // pecarian
+    function searchComponent() {
+        return {
+            showSearch: false,
+            searchQuery: '',
+            products: @json($products), // Mengirim data produk dari Laravel ke Alpine.js
+            get filteredProducts() {
+                if (this.searchQuery.trim() === '') {
+                    return [];
+                }
+                return this.products.filter(product =>
+                    product.name.toLowerCase().includes(this.searchQuery.toLowerCase())
+                );
+            }
+        }
+    }
 
     </script>
     

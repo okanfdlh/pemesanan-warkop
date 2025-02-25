@@ -29,12 +29,41 @@
 
     <div class="order-2 md:order-3 flex items-center" id="nav-content">
             {{-- cari --}}
-        <a class="inline-block no-underline hover:text-green-800" href="#">
-            <svg class="fill-current hover:text-green-800" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-                <circle fill="none" cx="12" cy="7" r="3" />
-                <path d="M10,18c1.846,0,3.543-0.635,4.897-1.688l4.396,4.396l1.414-1.414l-4.396-4.396C17.365,13.543,18,11.846,18,10 c0-4.411-3.589-8-8-8s-8,3.589-8,8S5.589,18,10,18z M10,4c3.309,0,6,2.691,6,6s-2.691,6-6,6s-6-2.691-6-6S6.691,4,10,4z" />
-            </svg>
-        </a>
+            <div x-data="searchComponent()" class="relative">
+                <!-- Ikon Pencarian -->
+                <a @click="showSearch = !showSearch" class="cursor-pointer">
+                    <svg class="w-6 h-6 sm:w-7 sm:h-7 text-gray-700 hover:text-green-800" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <circle fill="none" cx="12" cy="7" r="3" />
+                        <path d="M10,18c1.846,0,3.543-0.635,4.897-1.688l4.396,4.396l1.414-1.414l-4.396-4.396C17.365,13.543,18,11.846,18,10
+                            c0-4.411-3.589-8-8-8s-8,3.589-8,8S5.589,18,10,18z M10,4c3.309,0,6,2.691,6,6s-2.691,6-6,6s-6-2.691-6-6S6.691,4,10,4z" />
+                    </svg>
+                </a>
+            
+                <!-- Input Pencarian -->
+                <div x-show="showSearch" @click.away="showSearch = false"
+                    class="absolute right-0 top-full w-72 bg-white shadow-lg rounded-lg p-3 transition-all z-50">
+            
+                    <input type="text" x-model="searchQuery" placeholder="Cari menu..."
+                        class="w-full border border-gray-300 rounded-lg px-4 py-2 text-gray-700 focus:outline-none focus:ring focus:ring-green-300" />
+            
+                    <!-- Hasil Pencarian -->
+                    <div x-show="filteredProducts.length > 0"
+                        class="mt-2 bg-white shadow-md rounded-lg p-4 max-h-60 overflow-auto border border-gray-200">
+                        <template x-for="product in filteredProducts" :key="product.id">
+                            <div class="p-2 border-b last:border-none">
+                                <p class="font-semibold text-gray-800 text-sm" x-text="product.name"></p>
+                                <p class="text-green-600 font-bold text-xs" x-text="'Rp ' + new Intl.NumberFormat('id-ID').format(product.price)"></p>
+                            </div>
+                        </template>
+                    </div>
+            
+                    <!-- Jika Tidak Ada Hasil -->
+                    <p x-show="filteredProducts.length === 0"
+                       class="mt-2 bg-white shadow-md p-4 rounded-lg text-gray-500 border border-gray-200">
+                        Produk tidak ditemukan.
+                    </p>
+                </div>
+            </div>
            {{-- Keranjang --}}
 
            <a class="pl-3 inline-block no-underline hover:text-green-800 relative" href="/chart"
