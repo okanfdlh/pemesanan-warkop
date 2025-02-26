@@ -37,10 +37,9 @@
         "MIDTRANS_MERCHANT_ID":"G499536360"
     },
     "build": {
-
         "env": {
             "PHP_INI_SCAN_DIR": "/path/to/api",
-            "PHP_EXTENSIONS": "curl"
+            "PHP_EXTENSIONS": "curl, pgsql, pdo_pgsql"
         }
     }
 }

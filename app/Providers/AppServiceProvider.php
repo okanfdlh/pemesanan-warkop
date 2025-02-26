@@ -5,6 +5,7 @@ namespace App\Providers;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Route; 
 use App\Models\Product;
 
 class AppServiceProvider extends ServiceProvider
@@ -27,5 +28,11 @@ class AppServiceProvider extends ServiceProvider
         $view->with('cartCount', $cartCount);
         $view->with('products', Product::all());
     });
+}
+protected function mapApiRoutes()
+{
+    Route::middleware('api')
+         ->prefix('api')
+         ->group(base_path('routes/api.php'));
 }
 }
