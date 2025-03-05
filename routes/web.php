@@ -41,6 +41,8 @@ Route::get('/api/products', [ApiProductController::class, 'getProducts']);
 // routes/api.php
 
 
-Route::post('/api/menu/tambah', [ApiMenuController::class, 'store']);
+Route::middleware('api')->group(function () {
+    Route::post('/api/products', [ApiProductController::class, 'store']);
+});
 
 
