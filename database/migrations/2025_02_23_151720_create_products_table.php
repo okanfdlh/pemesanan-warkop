@@ -9,18 +9,17 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
-    public function up()
-{
-    Schema::create('products', function (Blueprint $table) {
-        $table->id();
-        $table->string('name');
-        $table->string('image');
-        $table->decimal('price', 13, 2);
-        $table->enum('category', ['coffe', 'nCoffe', 'makanan', 'cemilan']);
-        $table->timestamps();
-    });
-}
-
+    public function up(): void
+    {
+        Schema::create('products', function (Blueprint $table) {
+            $table->id();
+            $table->string('name');
+            $table->string('image'); // URL atau path gambar
+            $table->decimal('price', 13, 2);
+            $table->enum('category', ['coffee', 'non_coffee', 'makanan', 'cemilan']);
+            $table->timestamps();
+        });
+    }
 
     /**
      * Reverse the migrations.

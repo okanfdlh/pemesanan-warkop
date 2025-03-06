@@ -14,21 +14,20 @@ class ProductController extends Controller
         return response()->json($products);
     }
     public function store(Request $request)
-{
-    $request->validate([
-        'name' => 'required|string|max:255',
-        'price' => 'required|numeric',
-        'category' => 'required|string',
-        'image' => 'required|string'
-    ]);
+    {
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'description' => 'nullable|string',
+            'price' => 'required|numeric|min:0',
+            'stock' => 'required|integer|min:0',
+        ]);
 
-    $product = new Product();
-    $product->name = $request->name;
-    $product->price = $request->price;
-    $product->category = $request->category;
-    $product->image = $request->image;
-    $product->save();
+        $product = Product::create($request->all());
 
-    return response()->json(['message' => 'Produk berhasil ditambahkan'], 201);
-}
+        return response()->json([
+            'message' => 'Produk berhasil ditambahkan',
+            'product' => $product
+        ], 201);
+    }
+
 }

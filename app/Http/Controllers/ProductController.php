@@ -4,9 +4,14 @@ namespace App\Http\Controllers;
 
 use App\Models\Product;
 use Illuminate\Http\Request;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
 
 class ProductController extends Controller
 {
+    use HasFactory;
+
+    protected $fillable = ['name', 'image', 'price', 'category'];
     public function index()
 {
     $products = Product::all(); // Mengambil semua produk dari database
@@ -18,27 +23,6 @@ class ProductController extends Controller
     ];
     
     return view('home', compact('products', 'categories'));
-}
-public function store(Request $request)
-{
-    $request->validate([
-        'name' => 'required|string',
-        'image' => 'required|string',
-        'price' => 'required|numeric',
-        'category' => 'required|string',
-    ]);
-
-    $product = Product::create([
-        'name' => $request->name,
-        'image' => $request->image,
-        'price' => $request->price,
-        'category' => $request->category,
-    ]);
-
-    return response()->json([
-        'message' => 'Product successfully created',
-        'product' => $product
-    ], 201);
 }
 
 }

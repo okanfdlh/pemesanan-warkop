@@ -41,8 +41,8 @@ Route::get('/api/products', [ApiProductController::class, 'getProducts']);
 // routes/api.php
 
 
-Route::middleware('api')->group(function () {
-    Route::post('/api/products', [ApiProductController::class, 'store']);
+Route::middleware('auth:sanctum')->group(function () {
+    Route::post('/products', [ProductController::class, 'store']);
 });
 
 
