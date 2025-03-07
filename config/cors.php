@@ -1,12 +1,13 @@
 <?php
 return [
-    'paths' => ['api/*'],
+    'paths' => ['api/*', 'sanctum/csrf-cookie'],
     'allowed_methods' => ['*'],
-    'allowed_origins' => ['*'], // Bisa diganti dengan IP Flutter jika spesifik
+    'allowed_origins' => ['http://rumahseduh.wuaze.com'],
     'allowed_origins_patterns' => [],
     'allowed_headers' => ['*'],
-    'exposed_headers' => ['XSRF-TOKEN'],
+    'exposed_headers' => [],
     'max_age' => 0,
-    'supports_credentials' => true, // Harus true untuk menangani XSRF-TOKEN
+    'supports_credentials' => true,
 ];
+
 
