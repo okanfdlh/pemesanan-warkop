@@ -139,7 +139,7 @@ x-init="
 
     <div class="flex flex-col gap-8">
         @php
-            $categories = ['coffe' => 'Coffee', 'nCoffe' => 'Non Coffee', 'makanan' => 'Makanan', 'cemilan' => 'Cemilan'];
+            $categories = ['coffee' => 'Coffee', 'non_coffee' => 'Non Coffee', 'makanan' => 'Makanan', 'cemilan' => 'Cemilan'];
         @endphp
         @foreach($categories as $key => $categoryName)
             <div id="{{ $key }}" x-show="selectedCategory === 'all' || selectedCategory === '{{ $key }}'" 

@@ -49,5 +49,5 @@ Route::get('/api/products', [ApiProductController::class, 'getProducts']);
 
 // Route::post('/products', [ProductController::class, 'store']);
 
-Route::post('/login', [AuthController::class, 'login']);
-Route::middleware('auth:sanctum')->post('/logout', [AuthController::class, 'logout']);
+// Route::post('/login', [AuthController::class, 'login']);
+// Route::middleware('auth:sanctum')->post('/logout', [AuthController::class, 'logout']);

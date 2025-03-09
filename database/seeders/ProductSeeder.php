@@ -14,14 +14,14 @@ class ProductSeeder extends Seeder
             'name' => 'Cappuccino',
             'image' => 'https://upload.wikimedia.org/wikipedia/commons/thumb/7/70/Cappuccino_in_original.jpg/1200px-Cappuccino_in_original.jpg',
             'price' => 10000.00,
-            'category' => 'coffe'
+            'category' => 'coffee'
         ]);
 
         Product::create([
             'name' => 'Matcha Latte',
             'image' => 'https://cdn.loveandlemons.com/wp-content/uploads/2023/06/iced-matcha-latte.jpg',
             'price' => 15000.00,
-            'category' => 'nCoffe'  
+            'category' => 'non_coffee'  
         ]);
 
         Product::create([

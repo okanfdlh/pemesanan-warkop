@@ -1,5 +1,6 @@
 <?php
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\API\AuthController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\Api\OrderController as ApiOrderController;
 use App\Http\Controllers\Api\ProductController as ApiProductController;
@@ -32,7 +33,7 @@ Route::middleware('auth:sanctum')->post('/products', [ApiProductController::clas
 
 
 
-// Route::post('/login', [AuthController::class, 'login']); // Endpoint login
+Route::post('/login', [AuthController::class, 'login']); // Endpoint login
 
 // Endpoint tambah menu hanya bisa diakses jika user sudah login
 // Route::middleware('auth:sanctum')->post('/menu/tambah', [MenuController::class, 'store']);
