@@ -12,7 +12,7 @@ return new class extends Migration {
         $table->string('order_id')->unique();
         $table->string('customer_name');
         $table->string('customer_phone');
-        $table->text('note')->nullable();
+        $table->text('notes')->nullable();
         $table->decimal('total_price', 10, 2);
         $table->enum('status', ['Pending', 'Selesai'])->default('Pending');
         $table->timestamps();
