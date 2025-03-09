@@ -64,6 +64,13 @@
                     <input type="text" id="name" name="name" class="w-full p-2 border rounded-lg focus:ring-2 focus:ring-green-500" required>
                 </div>
 
+                <!-- Nomor meja -->
+                <div class="mb-4">
+                    <label for="meja" class="block font-medium text-gray-700">No. Meja</label>
+                    <input type="tel" id="no_meja" name="no_meja" class="w-full p-2 border rounded-lg focus:ring-2 focus:ring-green-500"
+                        pattern="[0-9]+" inputmode="numeric" oninput="this.value = this.value.replace(/[^0-9]/g, '')" required>
+                </div>
+
                 <!-- Nomor Telepon -->
                 <div class="mb-4">
                     <label for="phone" class="block font-medium text-gray-700">No. Telepon</label>

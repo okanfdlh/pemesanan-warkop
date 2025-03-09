@@ -14,6 +14,7 @@ class Order extends Model
         'customer_name',
         'customer_phone',
         'notes',
+        'no_meja',
         'total_price',
         'payment_status',
     ];
