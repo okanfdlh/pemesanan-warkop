@@ -1,15 +1,15 @@
 <?php
 
-namespace App\Http\Controllers\API;
+namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Auth;
 
 class AuthController extends Controller
 {
+    // Fungsi login
     public function login(Request $request)
     {
         $request->validate([
@@ -20,7 +20,9 @@ class AuthController extends Controller
         $user = User::where('email', $request->email)->first();
 
         if (!$user || !Hash::check($request->password, $user->password)) {
-            return response()->json(['message' => 'Email atau password salah'], 401);
+            return response()->json([
+                'message' => 'Email atau password salah'
+            ], 401);
         }
 
         $token = $user->createToken('auth_token')->plainTextToken;
@@ -32,11 +34,21 @@ class AuthController extends Controller
         ], 200);
     }
 
+    // Fungsi logout
     public function logout(Request $request)
     {
         $request->user()->tokens()->delete();
-        return response()->json(['message' => 'Logout berhasil'], 200);
+
+        return response()->json([
+            'message' => 'Logout berhasil'
+        ], 200);
+    }
+
+    // Fungsi cek user yang sedang login
+    public function me(Request $request)
+    {
+        return response()->json([
+            'user' => $request->user()
+        ]);
     }
 }
-
-
