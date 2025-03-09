@@ -24,5 +24,21 @@ class ProductController extends Controller
     
     return view('home', compact('products', 'categories'));
 }
+public function store(Request $request)
+{
+    $request->validate([
+        'name' => 'required|string|max:255',
+        'description' => 'nullable|string',
+        'price' => 'required|numeric|min:0',
+        'stock' => 'required|integer|min:0',
+    ]);
+
+    $product = Product::create($request->all());
+
+    return response()->json([
+        'message' => 'Produk berhasil ditambahkan',
+        'product' => $product
+    ], 201);
+}
 
 }

@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\API\AuthController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CheckoutController;
@@ -38,11 +39,15 @@ Route::post('/order/{orderId}/update-payment-status', [OrderController::class, '
 Route::get('/api/orders', [ApiOrderController::class, 'index']);
 Route::get('/api/orders/{id}', [ApiOrderController::class, 'show']);
 Route::get('/api/products', [ApiProductController::class, 'getProducts']);
+// Route::post('/api/products', [ApiProductController::class, 'store']);
 // routes/api.php
 
 
-Route::middleware('auth:sanctum')->group(function () {
-    Route::post('/products', [ProductController::class, 'store']);
-});
+// Route::middleware('auth:sanctum')->group(function () {
+//     Route::post('/api/products', [ApiProductController::class, 'store']);
+// });
 
+// Route::post('/products', [ProductController::class, 'store']);
 
+Route::post('/login', [AuthController::class, 'login']);
+Route::middleware('auth:sanctum')->post('/logout', [AuthController::class, 'logout']);

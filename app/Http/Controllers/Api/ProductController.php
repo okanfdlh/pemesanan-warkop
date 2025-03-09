@@ -13,21 +13,21 @@ class ProductController extends Controller
         $products = Product::all();
         return response()->json($products);
     }
+
     public function store(Request $request)
     {
         $request->validate([
             'name' => 'required|string|max:255',
-            'description' => 'nullable|string',
+            'category' => 'required|in:coffee,non_coffee,makanan,cemilan',
             'price' => 'required|numeric|min:0',
-            'stock' => 'required|integer|min:0',
+            'image' => 'required|url',
         ]);
 
-        $product = Product::create($request->all());
+        $product = Product::create($request->only(['name', 'category', 'price', 'image']));
 
         return response()->json([
             'message' => 'Produk berhasil ditambahkan',
             'product' => $product
         ], 201);
     }
-
 }
