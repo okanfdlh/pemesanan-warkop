@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class ProductController extends Controller
 {
-    use HasFactory;
+
 
     protected $fillable = ['name', 'image', 'price', 'category'];
     public function index()
@@ -39,6 +39,10 @@ public function store(Request $request)
         'message' => 'Produk berhasil ditambahkan',
         'product' => $product
     ], 201);
+}
+public function show($id) {
+    $product = Product::findOrFail($id);
+    return view('produk.detail', compact('product'));
 }
 
 }

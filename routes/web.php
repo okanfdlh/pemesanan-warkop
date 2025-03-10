@@ -41,6 +41,8 @@ Route::get('/api/orders/{id}', [ApiOrderController::class, 'show']);
 Route::get('/api/products', [ApiProductController::class, 'getProducts']);
 // Route::post('/api/products', [ApiProductController::class, 'store']);
 // routes/api.php
+Route::get('/products/{id}', [ProductController::class, 'show']);
+
 
 
 // Route::middleware('auth:sanctum')->group(function () {

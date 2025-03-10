@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Order;
+use App\Models\OrderItem;
 use App\Http\Controllers\Controller;
 use Midtrans\Snap;
 use Midtrans\Config;
@@ -12,60 +13,74 @@ use Illuminate\Support\Facades\Session;
 class CheckoutController extends Controller
 {
     public function processCheckout(Request $request)
-    {
-        // Validasi input
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'phone' => 'required|digits_between:10,15',
-            'note' => 'nullable|string|max:500',
-        ]);
+{
+    $request->validate([
+        'name' => 'required|string|max:255',
+        'no_meja' => 'required|digits_between:1,25',
+        'phone' => 'required|digits_between:10,15',
+        'note' => 'nullable|string|max:500',
+    ]);
 
-        // Buat Order ID unik
-        $orderId = 'INV-' . time();
+    $orderId = 'INV-' . time();
+    $totalAmount = 0;
 
-        // Hitung total harga dari session cart
-        $totalAmount = 0;
-        if (session()->has('cart')) {
-            foreach (session('cart') as $id => $item) {
-                $totalAmount += $item['price'] * $item['quantity'];
-            }
+    // Hitung total harga dari session cart
+    if (session()->has('cart')) {
+        foreach (session('cart') as $id => $item) {
+            $totalAmount += $item['price'] * $item['quantity'];
         }
-
-        // Simpan order ke database
-        $order = Order::create([
-            'order_id' => $orderId,
-            'customer_name' => $request->name,
-            'customer_phone' => $request->phone,
-            'notes' => $request->notes, // Perbaiki typo dari 'notes' ke 'note'
-            'total_price' => $totalAmount,
-            'payment_status' => 'pending',
-        ]);
-
-        // Simpan order_id ke session
-        session(['order_id' => $order->id]);
-
-        // Konfigurasi Midtrans
-        Config::$serverKey = config('midtrans.server_key');
-        Config::$isProduction = config('midtrans.is_production');
-        Config::$isSanitized = true;
-        Config::$is3ds = true;
-
-        // Kirim data ke Midtrans
-        $midtransParams = [
-            'transaction_details' => [
-                'order_id' => $order->order_id,
-                'gross_amount' => $order->total_price,
-            ],
-            'customer_details' => [
-                'first_name' => $order->customer_name,
-                'phone' => $order->customer_phone,
-            ],
-        ];
-
-        $snapToken = Snap::getSnapToken($midtransParams);
-
-        return view('payment', compact('snapToken', 'order')); // ✅ Pastikan order dikirim
     }
+
+    // Simpan order ke database
+    $order = Order::create([
+        'order_id' => $orderId,
+        'customer_name' => $request->name,
+        'customer_meja' => $request->no_meja,
+        'customer_phone' => $request->phone,
+        'notes' => $request->note ?? '',
+        'total_price' => $totalAmount,
+        'payment_status' => 'pending',
+    ]);
+
+    // Simpan order_id ke session
+    session(['order_id' => $order->id]);
+
+    // Simpan detail produk ke order_items
+    if (session()->has('cart')) {
+        foreach (session('cart') as $id => $item) {
+            OrderItem::create([
+                'order_id' => $order->id,
+                'product_name' => $item['name'],
+                'quantity' => $item['quantity'],
+                'price' => $item['price'],
+                'total_price' => $order->total_price, // Gunakan data dari $item
+            ]);
+            
+        }
+    }
+
+    // Konfigurasi Midtrans
+    Config::$serverKey = config('midtrans.server_key');
+    Config::$isProduction = config('midtrans.is_production');
+    Config::$isSanitized = true;
+    Config::$is3ds = true;
+
+    // Kirim data ke Midtrans
+    $midtransParams = [
+        'transaction_details' => [
+            'order_id' => $order->order_id,
+            'gross_amount' => $order->total_price,
+        ],
+        'customer_details' => [
+            'first_name' => $order->customer_name,
+            'phone' => $order->customer_phone,
+        ],
+    ];
+
+    $snapToken = Snap::getSnapToken($midtransParams);
+
+    return view('payment', compact('snapToken', 'order'));
+}
 
     public function success(Request $request)
     {

@@ -81,7 +81,7 @@
                 <!-- Catatan Pesanan -->
                 <div class="mb-4">
                     <label for="notes" class="block font-medium text-gray-700">Catatan Pesanan</label>
-                    <textarea id="notes" name="notes" rows="3" class="w-full p-2 border rounded-lg focus:ring-2 focus:ring-green-500" required></textarea>
+                    <textarea id="notes" name="notes" rows="3" class="w-full p-2 border rounded-lg focus:ring-2 focus:ring-green-500"></textarea>
                 </div>
 
                 <!-- Tombol Checkout -->

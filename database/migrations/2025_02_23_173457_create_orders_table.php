@@ -11,6 +11,7 @@ return new class extends Migration {
         $table->id();
         $table->string('order_id')->unique();
         $table->string('customer_name');
+        $table->string('customer_meja');
         $table->string('customer_phone');
         $table->text('notes')->nullable();
         $table->decimal('total_price', 10, 2);

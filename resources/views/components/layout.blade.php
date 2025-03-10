@@ -20,6 +20,8 @@
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
     <!-- Swiper JS -->
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <script src="//unpkg.com/alpinejs" defer></script>
+
     <style>
         .work-sans {
             font-family: 'Work Sans', sans-serif;
@@ -262,6 +264,16 @@ function setCategory(category) {
             }
         }
     }
+    // smooth scrolling
+    document.querySelectorAll('a[href^="{{ url("/") }}#"]').forEach(anchor => {
+    anchor.addEventListener('click', function(e) {
+        e.preventDefault();
+        window.location.href = this.href;
+    });
+});
+
+
+
 
     </script>
     

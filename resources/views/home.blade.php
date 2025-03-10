@@ -150,31 +150,33 @@ x-init="
                 </div>
                 <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6 justify-center">
                     @foreach($products->where('category', $key) as $product)
-                        <div class="bg-white p-4 border rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300">
-                            <img class="w-full h-40 sm:h-48 object-cover rounded-lg" src="{{ asset($product->image) }}">
-                            <div class="pt-3 text-center">
-                                <p class="font-semibold text-lg text-gray-800">{{ $product->name }}</p>
-                                <p class="text-green-600 font-bold">Rp {{ number_format($product->price, 2, ',', '.') }}</p>
-                            </div>
+                    <div class="product-item bg-white p-4 border rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300"
+                    id="product-{{ $product->id }}"  
+                    data-name="{{ strtolower($product->name) }}">
+                    <img class="w-full h-40 sm:h-48 object-cover rounded-lg" src="{{ asset($product->image) }}">
+                    <div class="pt-3 text-center">
+                        <p class="font-semibold text-lg text-gray-800">{{ $product->name }}</p>
+                        <p class="text-green-600 font-bold">Rp {{ number_format($product->price, 2, ',', '.') }}</p>
+                    </div>
 
-                            <!-- Tombol + - dan Jumlah -->
-                            <div class="flex items-center justify-center mt-3">
-                                <button onclick="decreaseQuantity({{ $product->id }})" 
-                                        class="px-3 py-1 bg-gray-300 text-gray-700 rounded-l-lg hover:bg-gray-400">−</button>
-                                <span id="quantity-{{ $product->id }}" 
-                                      class="px-4 py-1 bg-white border border-gray-300 text-gray-800 font-semibold">1</span>
-                                <button onclick="increaseQuantity({{ $product->id }})" 
-                                        class="px-3 py-1 bg-gray-300 text-gray-700 rounded-r-lg hover:bg-gray-400">+</button>
-                            </div>
+                    <div class="flex items-center justify-center mt-3">
+                        <button onclick="decreaseQuantity({{ $product->id }})" 
+                                class="px-3 py-1 bg-gray-300 text-gray-700 rounded-l-lg hover:bg-gray-400">−</button>
+                        <span id="quantity-{{ $product->id }}" 
+                            class="px-4 py-1 bg-white border border-gray-300 text-gray-800 font-semibold">1</span>
+                        <button onclick="increaseQuantity({{ $product->id }})" 
+                                class="px-3 py-1 bg-gray-300 text-gray-700 rounded-r-lg hover:bg-gray-400">+</button>
+                    </div>
 
-                            <!-- Tombol Pesan -->
-                            <button 
-                                onclick="addToCart({{ $product->id }})" 
-                                class="mt-3 w-full bg-green-500 text-white font-semibold py-2 rounded-lg hover:bg-green-600 transition-all">
-                                Pesan
-                            </button>
-                        </div>
-                    @endforeach
+                    <button 
+                        onclick="addToCart({{ $product->id }})" 
+                        class="mt-3 w-full bg-green-500 text-white font-semibold py-2 rounded-lg hover:bg-green-600 transition-all">
+                        Pesan
+                    </button>
+                </div>
+
+                     @endforeach
+
                 </div>
             </div>
         @endforeach

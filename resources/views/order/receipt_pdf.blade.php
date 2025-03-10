@@ -47,6 +47,20 @@
         }
         .status-pending { background: #ffc107; color: #212529; }
         .status-success { background: #28a745; color: white; }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #007bff;
+            color: white;
+        }
     </style>
 </head>
 <body>
@@ -54,12 +68,34 @@
         <h2>Struk Pembayaran</h2>
         <p><strong>Order ID:</strong> <span class="highlight">{{ $order->order_id }}</span></p>
         <p><strong>Nama:</strong> {{ $order->customer_name }}</p>
+        <p><strong>No. Meja:</strong> {{ $order->customer_meja ?? '-' }}</p>
         <p><strong>No. Telepon:</strong> {{ $order->customer_phone }}</p>
         <p><strong>Catatan:</strong> {{ $order->notes ?? '-' }}</p>
+        
+        <h3>Detail Pesanan</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Produk</th>
+                    <th>Qty</th>
+                    <th>Harga</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach($order->items as $item)
+                <tr>
+                    <td>{{ $item->product_name }}</td>
+                    <td>{{ $item->quantity }}</td>
+                    <td>Rp {{ number_format($item->total_price, 2, ',', '.') }}</td>
+                </tr>
+                @endforeach
+            </tbody>
+        </table>
+        
         <p><strong>Total Bayar:</strong> <span class="highlight">Rp {{ number_format($order->total_price, 2, ',', '.') }}</span></p>
         <p class="status 
             {{ $order->payment_status == 'pending' ? 'status-pending' : 'status-success' }}">
-            {{ ucfirst($order->payment_status) }}
+            {{ ucfirst($order->status) }}
         </p>
     </div>
 </body>
