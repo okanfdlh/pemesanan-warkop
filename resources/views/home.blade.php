@@ -117,11 +117,11 @@ x-init="
                             class="block px-4 py-2 hover:bg-green-100 w-full text-left">📋 Semua Menu</button>
                     </li>
                     <li>
-                        <button @click="selectedCategory = 'coffe'; openDropdown = false; localStorage.setItem('selectedCategory', 'coffe')"
+                        <button @click="selectedCategory = 'coffee'; openDropdown = false; localStorage.setItem('selectedCategory', 'coffe')"
                             class="block px-4 py-2 hover:bg-green-100 w-full text-left">☕ Coffee</button>
                     </li>
                     <li>
-                        <button @click="selectedCategory = 'nCoffe'; openDropdown = false; localStorage.setItem('selectedCategory', 'nCoffe')"
+                        <button @click="selectedCategory = 'non_coffee'; openDropdown = false; localStorage.setItem('selectedCategory', 'nCoffe')"
                             class="block px-4 py-2 hover:bg-green-100 w-full text-left">🥤 Non Coffee</button>
                     </li>
                     <li>
