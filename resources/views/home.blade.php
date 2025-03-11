@@ -1,6 +1,6 @@
 <x-layout>
 
-<div id="home" class="carousel relative container mx-auto pt-16" style="max-width:1600px;">
+<div id="Home" class="carousel relative container mx-auto pt-16" style="max-width:1600px;">
     <div class="carousel-inner relative overflow-hidden w-full">
         <!--Slide 1-->
         <input class="carousel-open" type="radio" id="carousel-1" name="carousel" aria-hidden="true" hidden="" checked="checked">
@@ -80,7 +80,7 @@ Alternatively if you want to just have a single hero
 
 -->
 
-<section id="dMenu" class="bg-white pt-20 pb-8" x-data="{ 
+<section id="Menu" class="bg-white pt-20 pb-8" x-data="{ 
     selectedCategory: localStorage.getItem('selectedCategory') || 'all' 
 }" 
 x-init="
@@ -185,7 +185,7 @@ x-init="
 </section>
 
 
-<section id="about" class="bg-white py-8">
+<section id="About" class="bg-white py-8">
     
     <div class="container py-8 px-6 mx-auto">
         <div class="pb-10">
