@@ -42,7 +42,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach($order->items as $item)
+                        @foreach($order->orderItems as $item)
                         <tr class="border-b">
                             <td class="py-1">{{ $item->product_name }}</td>
                             <td class="text-center py-1">{{ $item->quantity }}</td>

@@ -82,7 +82,7 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach($order->items as $item)
+                @foreach($order->orderItems as $item)
                 <tr>
                     <td>{{ $item->product_name }}</td>
                     <td>{{ $item->quantity }}</td>
