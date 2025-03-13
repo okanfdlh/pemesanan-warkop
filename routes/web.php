@@ -37,7 +37,7 @@ Route::get('/order/receipt/{order_id}', [OrderController::class, 'printReceipt']
 Route::get('/order/receipt/{order_id}/pdf', [OrderController::class, 'downloadReceiptPDF'])->name('order.receipt.pdf');
 Route::post('/order/{orderId}/update-payment-status', [OrderController::class, 'updatePaymentStatus']);
 Route::get('/api/orders', [ApiOrderController::class, 'index']);
-Route::get('/api/orders/{id}', [ApiOrderController::class, 'show']);
+
 Route::get('/api/products', [ApiProductController::class, 'getProducts']);
 // Route::post('/api/products', [ApiProductController::class, 'store']);
 // routes/api.php

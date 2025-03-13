@@ -19,7 +19,7 @@ class Order extends Model
         'total_price',
         'payment_status',
     ];
-    public function items()
+    public function orderItems()
 {
     return $this->hasMany(OrderItem::class);
 }
