@@ -113,7 +113,7 @@
 <footer class="container mx-auto bg-white py-8 border-t border-gray-400">
     <div class="w-full flex justify-center items-center">
         
-    </div>
+ 
     <div class="container flex px-3 py-8 ">
     <div class="w-full mx-auto flex flex-wrap">
       <div class="flex w-full lg:w-1/2 ">
@@ -155,6 +155,11 @@
       </div>
     </div>
     </div>
+    </div>
+    <div class="text-center mt-8">  
+        <p class="text-gray-600">© 2025 - Indirokan Fadhilah</p>  
+        <a href="https://instagram.com/okanfdlh" class="text-blue-600">instagram.com/okanfdlh</a> 
+    </div>  
     </footer>
     <script>
         // tambah data
