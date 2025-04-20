@@ -39,7 +39,7 @@ Route::post('/order/{orderId}/update-payment-status', [OrderController::class, '
 Route::get('/api/orders', [ApiOrderController::class, 'index']);
 
 Route::get('/api/products', [ApiProductController::class, 'getProducts']);
-// Route::post('/api/products', [ApiProductController::class, 'store']);
+
 // routes/api.php
 Route::get('/products/{id}', [ProductController::class, 'show']);
 

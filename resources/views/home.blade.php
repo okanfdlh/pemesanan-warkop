@@ -153,7 +153,7 @@ x-init="
                     <div class="product-item bg-white p-4 border rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300"
                     id="product-{{ $product->id }}"  
                     data-name="{{ strtolower($product->name) }}">
-                    <img class="w-full h-40 sm:h-48 object-cover rounded-lg" src="{{ asset($product->image) }}">
+                    <img class="w-full h-40 sm:h-48 object-cover rounded-lg" src="{{ asset('storage/' . $product->image) }}">
                     <div class="pt-3 text-center">
                         <p class="font-semibold text-lg text-gray-800">{{ $product->name }}</p>
                         <p class="text-green-600 font-bold">Rp {{ number_format($product->price, 2, ',', '.') }}</p>
