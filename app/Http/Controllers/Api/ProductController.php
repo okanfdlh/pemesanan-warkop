@@ -54,9 +54,10 @@ public function destroy($id)
     }
 
     // Jika ada file gambar di storage, bisa dihapus juga:
-    if ($product->image && \Storage::exists($product->image)) {
-        \Storage::delete($product->image);
+    if ($product->image && Storage::disk('public')->exists($product->image)) {
+        Storage::disk('public')->delete($product->image);
     }
+    
 
     $product->delete();
 
