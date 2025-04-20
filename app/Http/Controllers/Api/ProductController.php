@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Product;
+use Illuminate\Support\Facades\Storage;
 
 class ProductController extends Controller
 {
@@ -42,5 +43,25 @@ class ProductController extends Controller
         'product' => $product
     ], 201);
 }
+public function destroy($id)
+{
+    $product = Product::find($id);
 
+    if (!$product) {
+        return response()->json([
+            'message' => 'Produk tidak ditemukan'
+        ], 404);
+    }
+
+    // Jika ada file gambar di storage, bisa dihapus juga:
+    if ($product->image && \Storage::exists($product->image)) {
+        \Storage::delete($product->image);
+    }
+
+    $product->delete();
+
+    return response()->json([
+        'message' => 'Produk berhasil dihapus'
+    ], 200);
+}
 }
