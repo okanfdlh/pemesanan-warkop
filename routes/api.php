@@ -31,8 +31,9 @@ Route::post('/login', function (Request $request) {
 
 Route::middleware('auth:sanctum')->post('/products', [ApiProductController::class, 'store']);
 Route::middleware('auth:sanctum')->group(function () {
-    Route::delete('/products/{id}', [ProductController::class, 'destroy']);
+    Route::delete('/products/{id}', [ApiProductController::class, 'destroy']);
 });
+
 
 
 Route::post('/login', [AuthController::class, 'login']);
