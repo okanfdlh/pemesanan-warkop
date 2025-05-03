@@ -20,7 +20,7 @@
                 @endphp
 
                 <div class="flex flex-col sm:flex-row items-center justify-between p-4 bg-white shadow-md rounded-lg border border-gray-200">
-                    <img src="{{ asset($item['image']) }}" class="w-24 h-24 object-cover rounded-lg border border-gray-300">
+                    <img src="{{ asset('storage/' . $item['image']) }}" class="w-24 h-24 object-cover rounded-lg border border-gray-300">
                     <div class="flex-1 text-center sm:text-left px-4">
                         <p class="font-semibold text-lg text-gray-800">{{ $item['name'] }}</p>
                         <p class="text-green-600 font-bold text-lg">Rp {{ number_format($item['price'], 2, ',', '.') }}</p>

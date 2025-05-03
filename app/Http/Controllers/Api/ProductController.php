@@ -43,6 +43,41 @@ class ProductController extends Controller
         'product' => $product
     ], 201);
 }
+public function update(Request $request, $id)
+{
+    $product = Product::find($id);
+    if (!$product) {
+        return response()->json(['message' => 'Produk tidak ditemukan'], 404);
+    }
+
+    $validated = $request->validate([
+        'name' => 'required|string|max:255',
+        'category' => 'required|in:coffee,non_coffee,makanan,cemilan',
+        'price' => 'required|numeric|min:0',
+        'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+    ]);
+
+    // Ganti gambar jika ada file baru
+    if ($request->hasFile('image')) {
+        if ($product->image && Storage::disk('public')->exists($product->image)) {
+            Storage::disk('public')->delete($product->image);
+        }
+        $imagePath = $request->file('image')->store('products', 'public');
+        $product->image = $imagePath;
+    }
+
+    // Hanya update field selain image
+    $product->name = $validated['name'];
+    $product->category = $validated['category'];
+    $product->price = $validated['price'];
+    $product->save();
+
+    return response()->json([
+        'message' => 'Produk berhasil diperbarui',
+        'product' => $product
+    ]);
+}
+
 public function destroy($id)
 {
     $product = Product::find($id);
