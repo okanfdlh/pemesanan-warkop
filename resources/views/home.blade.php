@@ -156,7 +156,7 @@ x-init="
                     <h3>{{ $categoryName }}</h3>
                     <div class="w-24 h-1 mx-auto bg-green-500 rounded-full mt-2"></div>
                 </div>
-                <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6 justify-center">
+                <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 gap-6 justify-center">
                     @foreach($products->where('category', $key) as $product)
                     <div class="product-item bg-white p-4 border rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300"
                     id="product-{{ $product->id }}"  
