@@ -1,110 +1,92 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html lang="id">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    @vite('resources/css/app.css')
-    <title>Rumah Seduh</title>
-    <meta name="csrf-token" content="{{ csrf_token() }}">
-
-    <meta name="description" content="Free open source Tailwind CSS Store template">
-    <meta name="keywords" content="tailwind,tailwindcss,tailwind css,css,starter template,free template,store template, shop layout, minimal, monochrome, minimalistic, theme, nordic">
-    
-    <link rel="stylesheet" href="https://unpkg.com/tailwindcss@2.2.19/dist/tailwind.min.css"/>
-	<!-- Swiper CSS -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
-
-    <link href="https://fonts.googleapis.com/css?family=Work+Sans:200,400&display=swap" rel="stylesheet">
+    <title>Rumah Seduh - Kenyamanan Dalam Setiap Seduhan</title>
+    <script src="https://cdn.tailwindcss.com"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
-    <!-- Swiper JS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
-    <script src="//unpkg.com/alpinejs" defer></script>
-
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
     <style>
-        .work-sans {
-            font-family: 'Work Sans', sans-serif;
-        }
-                
-        #menu-toggle:checked + #menu {
-            display: block;
+        .font-inter { font-family: 'Inter', sans-serif; }
+        .font-playfair { font-family: 'Playfair Display', serif; }
+        
+        .hero-gradient {
+            background: linear-gradient(135deg, rgba(0,0,0,0.7) 0%, rgba(34,197,94,0.8) 50%, rgba(0,0,0,0.7) 100%);
         }
         
-        .hover\:grow {
-            transition: all 0.3s;
-            transform: scale(1);
+        .glass-effect {
+            backdrop-filter: blur(10px);
+            background: rgba(255, 255, 255, 0.1);
         }
         
-        .hover\:grow:hover {
-            transform: scale(1.02);
+        .coffee-pattern {
+            background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23f3f4f6' fill-opacity='0.05'%3E%3Ccircle cx='30' cy='30' r='4'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
         }
         
-        .carousel-open:checked + .carousel-item {
-            position: static;
-            opacity: 100;
+        .floating-animation {
+            animation: float 6s ease-in-out infinite;
         }
         
-        .carousel-item {
-            -webkit-transition: opacity 0.6s ease-out;
-            transition: opacity 0.6s ease-out;
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
         }
         
-        #carousel-1:checked ~ .control-1,
-        #carousel-2:checked ~ .control-2,
-        #carousel-3:checked ~ .control-3 {
-            display: block;
+        .fade-in-up {
+            animation: fadeInUp 0.8s ease-out forwards;
+            opacity: 0;
+            transform: translateY(30px);
         }
         
-        .carousel-indicators {
-            list-style: none;
-            margin: 0;
-            padding: 0;
-            position: absolute;
-            bottom: 2%;
-            left: 0;
-            right: 0;
-            text-align: center;
-            z-index: 10;
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
         
-        #carousel-1:checked ~ .control-1 ~ .carousel-indicators li:nth-child(1) .carousel-bullet,
-        #carousel-2:checked ~ .control-2 ~ .carousel-indicators li:nth-child(2) .carousel-bullet,
-        #carousel-3:checked ~ .control-3 ~ .carousel-indicators li:nth-child(3) .carousel-bullet {
-            color: #000;
-            /*Set to match the Tailwind colour you want the active one to be */
+        .swiper-slide img {
+            border-radius: 20px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
         }
-        .swiper {
-        width: 100%;
-        height: auto;
-    }
-    .swiper-slide img {
-        width: 100%;
-        height: auto;
-        border-radius: 10px; /* Opsional: Membuat sudut gambar membulat */
-    }
-    .custom-swiper-btn {
-        @apply bg-green-500 text-white p-3 rounded-full;
-    }
-    .custom-swiper-btn::after {
-        color: rgb(49, 128, 3) !important; /* Warna icon panah */
-        font-size: 35px !important;
-    }
-    .custom-swiper-btn:hover {
-        @apply bg-green-700;
-    }
-    .swiper-pagination-bullet {
-        background-color: #22c55e !important; /* Tailwind green-500 */
-        opacity: 0.7 !important;
-    }
-    .swiper-pagination-bullet-active {
-        background-color: #15803d !important; /* Tailwind green-700 */
-        opacity: 1 !important;
-    }
+        
+        .custom-swiper-btn {
+            background: rgba(34, 197, 94, 0.9);
+            backdrop-filter: blur(10px);
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+        }
+        
+        .custom-swiper-btn::after {
+            color: white;
+            font-size: 18px;
+            font-weight: bold;
+        }
+        
+        .custom-swiper-btn:hover {
+            background: rgba(21, 128, 61, 0.95);
+            transform: scale(1.1);
+            transition: all 0.3s ease;
+        }
+        
+        .swiper-pagination-bullet {
+            background: rgba(34, 197, 94, 0.3);
+            width: 12px;
+            height: 12px;
+        }
+        
+        .swiper-pagination-bullet-active {
+            background: #22c55e;
+            transform: scale(1.3);
+        }
     </style>
-
 </head>
-<body class="bg-white text-gray-600 work-sans leading-normal text-base tracking-normal">
+<body class="font-inter bg-gray-50 text-gray-800">
     {{-- header --}}
         <!--Nav-->
         <header x-data="{ open: false }" class="fixed top-0 left-0 w-full bg-white shadow-md z-50">
@@ -114,9 +96,9 @@
     <div class="w-full flex justify-center items-center">
         
  
-    <div class="container flex px-3 py-8 ">
-    <div class="w-full mx-auto flex flex-wrap">
-      <div class="flex w-full lg:w-1/2 ">
+    {{-- <div class="container flex px-3 py-8 ">
+    <div class="w-full mx-auto flex flex-wrap"> --}}
+      {{-- <div class="flex w-full lg:w-1/2 ">
         <div class="px-3 md:px-0">
           <h3 class="font-bold text-gray-900">About</h3>
           <p class="py-4">
@@ -125,8 +107,8 @@
             Setiap hari Senin LIBUR
           </p>
         </div>
-      </div>
-      
+      </div> --}}
+{{--       
       <div class="flex w-full lg:w-1/2 lg:justify-end lg:text-right mt-6 md:mt-0">
         <div class="px-3 md:px-0">
           <h3 class="text-left font-bold text-gray-900">Social</h3>
@@ -142,7 +124,7 @@
                 <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"></path>
               </svg>
             </a> --}}
-            <a href="https://www.instagram.com/rumahseduh20" class="mx-2">
+            {{-- <a href="https://www.instagram.com/rumahseduh20" class="mx-2">
               <svg class="w-6 h-6 fill-current" viewBox="0 0 24 24">
                 <path d="M12 0C8.74 0 8.333.015 7.053.072 5.775.132 4.905.333 4.14.63c-.789.306-1.459.717-2.126 1.384S.935 3.35.63 4.14C.333 4.905.131 5.775.072 7.053.012 8.333 0 8.74 0 12s.015 3.667.072 4.947c.06 1.277.261 2.148.558 2.913.306.788.717 1.459 1.384 2.126.667.666 1.336 1.079 2.126 1.384.766.296 1.636.499 2.913.558C8.333 23.988 8.74 24 12 24s3.667-.015 4.947-.072c1.277-.06 2.148-.262 2.913-.558.788-.306 1.459-.718 2.126-1.384.666-.667 1.079-1.335 1.384-2.126.296-.765.499-1.636.558-2.913.06-1.28.072-1.687.072-4.947s-.015-3.667-.072-4.947c-.06-1.277-.262-2.149-.558-2.913-.306-.789-.718-1.459-1.384-2.126C21.319 1.347 20.651.935 19.86.63c-.765-.297-1.636-.499-2.913-.558C15.667.012 15.26 0 12 0zm0 2.16c3.203 0 3.585.016 4.85.071 1.17.055 1.805.249 2.227.415.562.217.96.477 1.382.896.419.42.679.819.896 1.381.164.422.36 1.057.413 2.227.057 1.266.07 1.646.07 4.85s-.015 3.585-.074 4.85c-.061 1.17-.256 1.805-.421 2.227-.224.562-.479.96-.899 1.382-.419.419-.824.679-1.38.896-.42.164-1.065.36-2.235.413-1.274.057-1.649.07-4.859.07-3.211 0-3.586-.015-4.859-.074-1.171-.061-1.816-.256-2.236-.421-.569-.224-.96-.479-1.379-.899-.421-.419-.69-.824-.9-1.38-.165-.42-.359-1.065-.42-2.235-.045-1.26-.061-1.649-.061-4.844 0-3.196.016-3.586.061-4.861.061-1.17.255-1.814.42-2.234.21-.57.479-.96.9-1.381.419-.419.81-.689 1.379-.898.42-.166 1.051-.361 2.221-.421 1.275-.045 1.65-.06 4.859-.06l.045.03zm0 3.678c-3.405 0-6.162 2.76-6.162 6.162 0 3.405 2.76 6.162 6.162 6.162 3.405 0 6.162-2.76 6.162-6.162 0-3.405-2.76-6.162-6.162-6.162zM12 16c-2.21 0-4-1.79-4-4s1.79-4 4-4 4 1.79 4 4-1.79 4-4 4zm7.846-10.405c0 .795-.646 1.44-1.44 1.44-.795 0-1.44-.646-1.44-1.44 0-.794.646-1.439 1.44-1.439.793-.001 1.44.645 1.44 1.439z"></path>
               </svg>
@@ -151,12 +133,12 @@
               <svg class="w-6 h-6 fill-current" viewBox="0 0 24 24">
                 <path d="M12.017 0C5.396 0 .029 5.367.029 11.987c0 5.079 3.158 9.417 7.618 11.162-.105-.949-.199-2.403.041-3.439.219-.937 1.406-5.957 1.406-5.957s-.359-.72-.359-1.781c0-1.663.967-2.911 2.168-2.911 1.024 0 1.518.769 1.518 1.688 0 1.029-.653 2.567-.992 3.992-.285 1.193.6 2.165 1.775 2.165 2.128 0 3.768-2.245 3.768-5.487 0-2.861-2.063-4.869-5.008-4.869-3.41 0-5.409 2.562-5.409 5.199 0 1.033.394 2.143.889 2.741.099.12.112.225.085.345-.09.375-.293 1.199-.334 1.363-.053.225-.172.271-.401.165-1.495-.69-2.433-2.878-2.433-4.646 0-3.776 2.748-7.252 7.92-7.252 4.158 0 7.392 2.967 7.392 6.923 0 4.135-2.607 7.462-6.233 7.462-1.214 0-2.354-.629-2.758-1.379l-.749 2.848c-.269 1.045-1.004 2.352-1.498 3.146 1.123.345 2.306.535 3.55.535 6.607 0 11.985-5.365 11.985-11.987C23.97 5.39 18.592.026 11.985.026L12.017 0z"></path>
               </svg>
-            </a> --}}
-          </div>
-        </div>
-      </div>
-    </div>
-    </div>
+            </a> 
+          </div> --}}
+     {{-- </div>
+      </div>  --}}
+    {{-- </div>
+    </div> --}}
     </div>
     <div class="text-center mt-8">  
         <p class="text-gray-600">© 2025 - Indirokan Fadhilah</p>  
