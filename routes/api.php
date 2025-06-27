@@ -2,7 +2,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ProductController;
-use App\Http\Controllers\Api\OrderController as ApiOrderController;
+use App\Http\Controllers\Api\OrderController;
 use App\Http\Controllers\Api\ProductController as ApiProductController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -41,6 +41,5 @@ Route::post('/login', [AuthController::class, 'login']);
 Route::middleware('auth:sanctum')->post('/logout', [AuthController::class, 'logout']);
 Route::middleware('auth:sanctum')->get('/me', [AuthController::class, 'me']);
 Route::get('/pendapatan', [OrderController::class, 'getPendapatan']);
-// Endpoint tambah menu hanya bisa diakses jika user sudah login
-// Route::middleware('auth:sanctum')->post('/menu/tambah', [MenuController::class, 'store']);
+Route::get('/produk-terlaris', [OrderController::class, 'getProdukTerlaris']);
 Route::middleware('auth:sanctum')->post('/order/cash', [OrderController::class, 'storeCashOrder']);

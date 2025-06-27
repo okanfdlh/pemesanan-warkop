@@ -64,15 +64,33 @@
 </div>
 
 @if(isset($snapToken))
-    <script src="https://app.sandbox.midtrans.com/snap/snap.js" data-client-key="{{ config('midtrans.client_key') }}"></script>
+    {{-- Pastikan client key dari production --}}
+    <script 
+        src="https://app.midtrans.com/snap/snap.js" 
+        data-client-key="{{ config('midtrans.client_key') }}">
+    </script>
+
     <script>
-    document.getElementById('pay-button').onclick = function() {
-        snap.pay('{{ $snapToken }}', {
-            onSuccess: function(result) {
-                window.location.href = "/payment/success?order_id=" + result.order_id;
-            }
+        document.getElementById('pay-button').addEventListener('click', function () {
+            snap.pay('{{ $snapToken }}', {
+                onSuccess: function(result) {
+                    window.location.href = "/payment/success?order_id=" + result.order_id;
+                },
+                onPending: function(result) {
+                    console.log("Transaksi pending", result);
+                },
+                onError: function(result) {
+                    console.error("Terjadi error pada pembayaran:", result);
+                    alert("Terjadi kesalahan pada pembayaran.");
+                },
+                onClose: function() {
+                    if (confirm("Kamu menutup popup pembayaran. Ingin kembali ke keranjang?")) {
+                        window.location.href = "/chart";
+                    }
+                }
+            });
         });
-    };
     </script>
 @endif
+
 @endsection
