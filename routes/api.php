@@ -40,5 +40,7 @@ Route::middleware('auth:sanctum')->group(function () {
 Route::post('/login', [AuthController::class, 'login']);
 Route::middleware('auth:sanctum')->post('/logout', [AuthController::class, 'logout']);
 Route::middleware('auth:sanctum')->get('/me', [AuthController::class, 'me']);
+Route::get('/pendapatan', [OrderController::class, 'getPendapatan']);
 // Endpoint tambah menu hanya bisa diakses jika user sudah login
 // Route::middleware('auth:sanctum')->post('/menu/tambah', [MenuController::class, 'store']);
+Route::middleware('auth:sanctum')->post('/order/cash', [OrderController::class, 'storeCashOrder']);
