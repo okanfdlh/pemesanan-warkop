@@ -68,7 +68,7 @@ class OrderController extends Controller
                 ->groupBy(DB::raw('MONTH(created_at)'), DB::raw('YEAR(created_at)'));
         }
 
-        $query->where('payment_status', 'Selesai')->orderBy('label', 'asc');
+        $query->where('status', 'Selesai')->orderBy('label', 'asc');
 
         $result = $query->get();
 
@@ -82,7 +82,7 @@ class OrderController extends Controller
         $query = DB::table('order_items')
             ->select('product_name', DB::raw('SUM(quantity) as total_terjual'))
             ->join('orders', 'orders.id', '=', 'order_items.order_id')
-            ->where('orders.payment_status', 'Selesai')
+            ->where('orders.status', 'Selesai')
             ->whereYear('orders.created_at', $year);
 
         if ($month) {
@@ -123,7 +123,8 @@ class OrderController extends Controller
             'customer_meja'   => $request->customer_meja,
             'notes'           => $request->note,
             'total_price'     => $total,
-            'payment_status'  => 'Selesai', // langsung dianggap sudah dibayar
+            'payment_status'  => 'Selesai',
+            'status'  => 'Selesai', // langsung dianggap sudah dibayar
         ]);
 
         // Simpan item ke order_items
@@ -142,5 +143,4 @@ class OrderController extends Controller
             'order'   => $order->load('orderItems')
         ]);
     }
-
 }

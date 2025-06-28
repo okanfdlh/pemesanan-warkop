@@ -18,6 +18,7 @@ class Order extends Model
         'no_meja',
         'total_price',
         'payment_status',
+        'status',
     ];
     public function orderItems()
 {
