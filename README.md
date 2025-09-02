@@ -1,66 +1,245 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# 🍵 Sistem Pemesanan Warkop
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Sistem pemesanan online untuk warung kopi (warkop) yang dibangun menggunakan Laravel. Aplikasi ini memungkinkan pelanggan untuk memesan menu makanan dan minuman secara online dengan sistem pembayaran terintegrasi.
 
-## About Laravel
+## 📋 Fitur Utama
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+- ✅ Manajemen produk (menu makanan dan minuman)
+- ✅ Sistem pemesanan online
+- ✅ Manajemen pesanan dengan status tracking
+- ✅ Integrasi pembayaran Midtrans
+- ✅ Dashboard admin untuk monitoring
+- ✅ Responsive design dengan Tailwind CSS
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## 🛠️ Teknologi yang Digunakan
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+- **Backend**: Laravel 10.x
+- **Frontend**: Blade Templates, Tailwind CSS, Vite
+- **Database**: MySQL
+- **Payment Gateway**: Midtrans
+- **Authentication**: Laravel Sanctum
 
-## Learning Laravel
+## 📁 Struktur Folder
+pemesanan-warkop/
+├── app/                          # Core aplikasi Laravel
+│   ├── Http/Controllers/         # Controllers untuk handle request
+│   ├── Models/                   # Eloquent models
+│   │   ├── User.php             # Model user/admin
+│   │   ├── Product.php          # Model produk menu
+│   │   ├── Order.php            # Model pesanan
+│   │   ├── OrderItem.php        # Model item pesanan
+│   │   └── Menu.php             # Model menu tambahan
+│   ├── Providers/               # Service providers
+│   └── View/Components/         # Blade components
+├── database/                     # Database related files
+│   ├── migrations/              # Database migrations
+│   └── seeders/                 # Database seeders
+│       ├── UserSeeder.php       # Seeder untuk user admin
+│       ├── ProductSeeder.php    # Seeder untuk produk menu
+│       ├── OrderSeeder.php      # Seeder untuk contoh pesanan
+│       └── OrderItemSeeder.php  # Seeder untuk item pesanan
+├── resources/                    # Frontend resources
+│   ├── views/                   # Blade templates
+│   │   ├── home.blade.php       # Halaman utama/menu
+│   │   ├── checkout.blade.php   # Halaman checkout
+│   │   ├── payment.blade.php    # Halaman pembayaran
+│   │   └── chart.blade.php      # Dashboard/laporan
+│   ├── css/                     # Stylesheets
+│   └── js/                      # JavaScript files
+├── routes/                       # Route definitions
+│   ├── web.php                  # Web routes
+│   └── api.php                  # API routes
+├── config/                       # Configuration files
+│   ├── midtrans.php             # Konfigurasi Midtrans
+│   └── database.php             # Konfigurasi database
+└── public/                       # Public assets
+├── img/                     # Images
+└── index.php                # Entry point
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+## 🚀 Cara Menjalankan Project
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+### Prerequisites
+- PHP >= 8.1
+- Composer
+- Node.js & NPM
+- MySQL/MariaDB
 
-## Laravel Sponsors
+### 1. Clone Repository
+```bash
+git clone <repository-url>
+cd pemesanan-warkop
+```
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+### 2. Install Dependencies
+```bash
+# Install PHP dependencies
+composer install
 
-### Premium Partners
+# Install Node.js dependencies
+npm install
+```
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+### 3. Environment Setup
+```bash
+# Copy environment file
+cp .env.example .env
 
-## Contributing
+# Generate application key
+php artisan key:generate
+```
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+### 4. Database Configuration
+Edit file `.env` dan sesuaikan konfigurasi database:
+```env
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=pemesanan_warkop
+DB_USERNAME=your_username
+DB_PASSWORD=your_password
+```
 
-## Code of Conduct
+### 5. Midtrans Configuration
+Tambahkan konfigurasi Midtrans di `.env`:
+```env
+MIDTRANS_SERVER_KEY=your_server_key
+MIDTRANS_CLIENT_KEY=your_client_key
+MIDTRANS_IS_PRODUCTION=false
+```
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+### 6. Database Migration & Seeding
+```bash
+# Jalankan migration
+php artisan migrate:fresh
 
-## Security Vulnerabilities
+# Jalankan seeder untuk data awal
+php artisan db:seed
+```
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+### 7. Build Assets
+```bash
+# Development
+npm run dev
 
-## License
+# Production
+npm run build
+```
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+### 8. Jalankan Server
+```bash
+# Development server
+php artisan serve
+
+# Akses aplikasi di: http://localhost:8000
+```
+
+## 📊 Database Schema
+
+### Tabel Users
+- `id` - Primary key
+- `name` - Nama user
+- `email` - Email user
+- `password` - Password (hashed)
+
+### Tabel Products
+- `id` - Primary key
+- `name` - Nama produk
+- `image` - URL gambar produk
+- `price` - Harga produk
+- `category` - Kategori (coffee, non_coffee, makanan, cemilan)
+
+### Tabel Orders
+- `id` - Primary key
+- `order_id` - ID pesanan unik
+- `customer_name` - Nama pelanggan
+- `customer_meja` - Nomor meja
+- `customer_phone` - Nomor telepon
+- `notes` - Catatan pesanan
+- `total_price` - Total harga
+- `status` - Status pesanan (Pending, Selesai)
+- `payment_method` - Metode pembayaran
+
+### Tabel Order Items
+- `id` - Primary key
+- `order_id` - Foreign key ke orders
+- `product_name` - Nama produk
+- `quantity` - Jumlah
+- `price` - Harga satuan
+- `subtotal` - Subtotal (price × quantity)
+
+## 🎯 Fungsi Utama
+
+### 1. Manajemen Produk
+- **Model**: `Product.php`
+- **Fungsi**: Mengelola menu makanan dan minuman
+- **Kategori**: Coffee, Non-Coffee, Makanan, Cemilan
+
+### 2. Sistem Pemesanan
+- **Model**: `Order.php`, `OrderItem.php`
+- **Fungsi**: Mengelola pesanan pelanggan
+- **Fitur**: Multi-item order, customer info, table assignment
+
+### 3. Payment Integration
+- **Config**: `config/midtrans.php`
+- **Fungsi**: Integrasi dengan Midtrans payment gateway
+- **Support**: Credit card, bank transfer, e-wallet
+
+### 4. Dashboard & Reporting
+- **View**: `chart.blade.php`
+- **Fungsi**: Monitoring pesanan dan laporan penjualan
+
+## 🔧 Perintah Artisan Berguna
+
+```bash
+# Reset database dengan data fresh
+php artisan migrate:fresh --seed
+
+# Membuat controller baru
+php artisan make:controller NamaController
+
+# Membuat model dengan migration
+php artisan make:model NamaModel -m
+
+# Membuat seeder
+php artisan make:seeder NamaSeeder
+
+# Clear cache
+php artisan cache:clear
+php artisan config:clear
+php artisan view:clear
+```
+
+## 📱 Deployment
+
+### Vercel Deployment
+Project ini sudah dikonfigurasi untuk deployment di Vercel:
+- File `vercel.json` - Konfigurasi Vercel
+- Folder `api/` - Entry point untuk Vercel
+
+### Production Setup
+1. Set environment variables di hosting
+2. Jalankan `composer install --optimize-autoloader --no-dev`
+3. Jalankan `npm run build`
+4. Set proper file permissions
+5. Configure web server (Apache/Nginx)
+
+## 🤝 Contributing
+
+1. Fork repository
+2. Buat feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push ke branch (`git push origin feature/AmazingFeature`)
+5. Buat Pull Request
+
+## 📄 License
+
+Project ini menggunakan [MIT License](https://opensource.org/licenses/MIT).
+
+## 📞 Support
+
+Jika ada pertanyaan atau issue, silakan buat issue di repository ini atau hubungi developer.
+
+---
+
+**Dibuat dengan ❤️ untuk kemudahan pemesanan di warkop kesayangan Anda!**

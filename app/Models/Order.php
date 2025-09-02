@@ -15,10 +15,10 @@ class Order extends Model
         'customer_phone',
         'customer_meja',
         'notes',
-        'no_meja',
         'total_price',
-        'payment_status',
         'status',
+        'payment_method', // tambahkan ini
+        // hapus 'no_meja' dan 'payment_status'
     ];
     public function orderItems()
 {

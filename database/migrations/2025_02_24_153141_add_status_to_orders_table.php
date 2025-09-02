@@ -10,17 +10,13 @@ return new class extends Migration
      * Run the migrations.
      */
     public function up()
-{
-    Schema::table('orders', function (Blueprint $table) {
-        $table->enum('status', ['Pending', 'Selesai'])->default('Pending')->after('total_price');
-    });
-}
+    {
+        // Kolom status sudah ada di create_orders_table migration
+        // Tidak perlu menambahkan lagi
+    }
 
-public function down()
-{
-    Schema::table('orders', function (Blueprint $table) {
-        $table->dropColumn('status');
-    });
-}
-
+    public function down()
+    {
+        // Tidak ada yang perlu di-rollback
+    }
 };

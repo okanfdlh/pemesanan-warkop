@@ -7,19 +7,12 @@ use Illuminate\Support\Facades\Schema;
 return new class extends Migration {
     public function up()
     {
-        Schema::table('order_items', function (Blueprint $table) {
-            // Pastikan order_items memiliki kolom total_price
-            $table->decimal('total_price', 10, 2)->nullable()->change();
-
-            // Tambahkan foreign key ke tabel orders
-            $table->foreign('total_price')->references('total_price')->on('orders')->onDelete('cascade');
-        });
+        // Foreign key sudah ada di create_order_items_table migration
+        // menggunakan order_id, bukan total_price
     }
 
     public function down()
     {
-        Schema::table('order_items', function (Blueprint $table) {
-            $table->dropForeign(['total_price']);
-        });
+        // Tidak ada yang perlu di-rollback
     }
 };
