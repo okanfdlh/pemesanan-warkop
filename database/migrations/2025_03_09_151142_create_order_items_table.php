@@ -17,7 +17,8 @@ return new class extends Migration
         $table->string('product_name'); // Nama produk
         $table->integer('quantity'); // Jumlah
         $table->decimal('price', 10, 2); // Harga satuan
-        $table->decimal('subtotal', 10, 2); // Harga total (price * quantity)
+        // Ganti baris 19
+        $table->decimal('subtotal', 10, 2)->nullable(); // Tambah nullable()
         $table->timestamps();
     });
     Schema::table('order_items', function (Blueprint $table) {

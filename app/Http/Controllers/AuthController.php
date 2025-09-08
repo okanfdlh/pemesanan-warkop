@@ -51,4 +51,14 @@ class AuthController extends Controller
             'user' => $request->user()
         ]);
     }
+    // Fungsi get all users (hanya bisa diakses pakai token)
+    public function getAllUsers(Request $request)
+    {
+        $users = User::all();
+
+        return response()->json([
+            'message' => 'Daftar user berhasil diambil',
+            'users' => $users
+        ], 200);
+    }
 }

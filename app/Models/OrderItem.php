@@ -8,10 +8,16 @@ class OrderItem extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['order_id', 'product_name', 'quantity', 'price', 'subtotal']; // ganti total_price jadi subtotal
+    protected $fillable = [
+        'order_id', 
+        'product_name', 
+        'quantity', 
+        'price', 
+        'subtotal'  // Pastikan subtotal ada di fillable
+    ];
 
     public function order()
     {
-        return $this->belongsTo(Order::class); // gunakan konvensi Laravel
+        return $this->belongsTo(Order::class);
     }
 }

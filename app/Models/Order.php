@@ -12,13 +12,15 @@ class Order extends Model
     protected $fillable = [
         'order_id',
         'customer_name',
-        'customer_phone',
         'customer_meja',
+        'customer_phone',
         'notes',
         'total_price',
+        'fee_platform',
+        'total_bayar',
+        'payment_status',
         'status',
-        'payment_method', // tambahkan ini
-        // hapus 'no_meja' dan 'payment_status'
+        'payment_method'
     ];
     public function orderItems()
 {

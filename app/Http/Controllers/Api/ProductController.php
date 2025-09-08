@@ -9,9 +9,14 @@ use Illuminate\Support\Facades\Storage;
 
 class ProductController extends Controller
 {
-    public function getProducts()
+    public function getProducts(Request $request)
     {
-        $products = Product::all();
+        $perPage = $request->query('per_page', 12); // default 12 per page
+
+        $products = Product::select('id', 'name', 'category', 'price', 'image')
+            ->orderBy('created_at', 'desc')
+            ->paginate($perPage);
+
         return response()->json($products);
     }
 

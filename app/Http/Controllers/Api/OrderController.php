@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\Order;
 use App\Models\OrderItem;
+use App\Models\Product;
+use App\Helpers\PaymentHelper;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
@@ -31,6 +33,7 @@ class OrderController extends Controller
 
         return response()->json($order);
     }
+    
     public function getPendapatan(Request $request)
     {
         $type  = $request->query('type', 'day'); // default: day
@@ -74,6 +77,7 @@ class OrderController extends Controller
 
         return response()->json($result);
     }
+    
     public function getProdukTerlaris(Request $request)
     {
         $year  = $request->query('year', now()->year);
@@ -94,6 +98,7 @@ class OrderController extends Controller
 
         return response()->json($query->get());
     }
+    
     public function storeCashOrder(Request $request)
     {
         $validator = Validator::make($request->all(), [
@@ -106,41 +111,109 @@ class OrderController extends Controller
             'items.*.price'    => 'required|numeric',
             'items.*.quantity' => 'required|integer|min:1',
         ]);
-
+    
         if ($validator->fails()) {
             return response()->json(['errors' => $validator->errors()], 422);
         }
-
-        $total = collect($request->items)->sum(function ($item) {
-            return $item['price'] * $item['quantity'];
-        });
-
-        // Simpan ke tabel orders
-        $order = Order::create([
-            'order_id'        => 'INV-' . time(),
-            'customer_name'   => $request->name,
-            'customer_phone'  => $request->phone,
-            'customer_meja'   => $request->customer_meja,
-            'notes'           => $request->note,
-            'total_price'     => $total,
-            'payment_status'  => 'Selesai',
-            'status'  => 'Selesai', // langsung dianggap sudah dibayar
-        ]);
-
-        // Simpan item ke order_items
-        foreach ($request->items as $item) {
-            OrderItem::create([
-                'order_id'     => $order->id,
-                'product_name' => $item['name'],
-                'price'        => $item['price'],
-                'quantity'     => $item['quantity'],
-                'total_price'  => $item['price'] * $item['quantity'],
+    
+        DB::beginTransaction();
+        try {
+            // Validasi stok sebelum membuat order
+            $stockErrors = [];
+            foreach ($request->items as $item) {
+                $product = Product::where('name', $item['name'])->first();
+                if ($product) {
+                    if (!$product->hasEnoughStock($item['quantity'])) {
+                        $stockErrors[] = "Stok {$item['name']} tidak mencukupi. Tersedia: {$product->stock}";
+                    }
+                }
+            }
+    
+            if (!empty($stockErrors)) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Stok tidak mencukupi',
+                    'errors' => $stockErrors
+                ], 400);
+            }
+    
+            $total = collect($request->items)->sum(function ($item) {
+                return $item['price'] * $item['quantity'];
+            });
+            
+            // Hitung Hybrid Fee
+            $paymentDetails = PaymentHelper::calculateHybridFee($total);
+    
+            // Simpan ke tabel orders dengan fee platform
+            $order = Order::create([
+                'order_id'        => 'INV-' . time(),
+                'customer_name'   => $request->name,
+                'customer_phone'  => $request->phone,
+                'customer_meja'   => $request->customer_meja,
+                'notes'           => $request->note,
+                'total_price'     => $paymentDetails['total_order'],
+                'fee_platform'    => $paymentDetails['fee_platform'],
+                'total_bayar'     => $paymentDetails['total_bayar'],
+                'status'          => 'Selesai',
+                'payment_status'  => 'sukses',
+                'payment_method'  => 'cash'
             ]);
+    
+            // Simpan item ke order_items dan kurangi stok
+            foreach ($request->items as $item) {
+                OrderItem::create([
+                    'order_id'     => $order->id,
+                    'product_name' => $item['name'],
+                    'price'        => $item['price'],
+                    'quantity'     => $item['quantity'],
+                    'subtotal'     => $item['price'] * $item['quantity'],
+                ]);
+    
+                // Kurangi stok produk
+                $product = Product::where('name', $item['name'])->first();
+                if ($product) {
+                    $product->decreaseStock($item['quantity']);
+                }
+            }
+    
+            DB::commit();
+    
+            return response()->json([
+                'success' => true,
+                'message' => 'Pesanan berhasil disimpan dan stok telah diupdate.',
+                'order'   => $order->load('orderItems'),
+                'payment_details' => $paymentDetails
+            ]);
+    
+        } catch (\Exception $e) {
+            DB::rollback();
+            return response()->json([
+                'success' => false,
+                'message' => 'Gagal membuat pesanan: ' . $e->getMessage()
+            ], 500);
         }
-
+    }
+    
+    /**
+     * Mendapatkan detail perhitungan Hybrid Fee untuk pesanan
+     */
+    public function getOrderFeeDetails($id)
+    {
+        $order = Order::find($id);
+        
+        if (!$order) {
+            return response()->json(['message' => 'Order tidak ditemukan'], 404);
+        }
+        
+        // Hitung ulang fee berdasarkan total_price
+        $paymentDetails = PaymentHelper::calculateHybridFee($order->total_price);
+        
         return response()->json([
-            'message' => 'Pesanan berhasil disimpan dan dibayar.',
-            'order'   => $order->load('orderItems')
+            'order_id' => $order->order_id,
+            'total_order' => $order->total_price,
+            'fee_platform' => $order->fee_platform,
+            'total_bayar' => $order->total_bayar,
+            'payment_details' => $paymentDetails
         ]);
     }
 }

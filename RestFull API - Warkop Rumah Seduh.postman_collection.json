@@ -1,0 +1,799 @@
+{
+	"info": {
+		"_postman_id": "0d80dcea-cdb1-4710-b6ec-062b1f2220e3",
+		"name": "RestFull API - Warkop Rumah Seduh",
+		"description": "API Collection untuk Sistem Pemesanan Warkop Rumah Seduh\n\n## Base URL\n- Development: http://localhost:8000\n- Production: https://your-domain.com\n\n## Authentication\nMenggunakan Laravel Sanctum dengan Bearer Token\n\n## Endpoints Available:\n- Authentication (Login, Logout, Me)\n- Product Management (CRUD)\n- Order Management\n- Analytics & Reports",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "44623254"
+	},
+	"item": [
+		{
+			"name": "Authentication",
+			"item": [
+				{
+					"name": "Login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"if (pm.response.code === 200) {",
+									"    var jsonData = pm.response.json();",
+									"    pm.environment.set('token', jsonData.token);",
+									"    pm.test('Login successful', function () {",
+									"        pm.expect(jsonData.token).to.not.be.undefined;",
+									"    });",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"email\": \"okan@gmail.com\",\n  \"password\": \"12345678\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/login",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"login"
+							]
+						},
+						"description": "Login endpoint untuk mendapatkan authentication token\n\n**Request Body:**\n- email (string, required): Email user\n- password (string, required): Password user\n\n**Success Response (200):**\n```json\n{\n  \"message\": \"Login berhasil\",\n  \"token\": \"1|abc123...\",\n  \"user\": {\n    \"id\": 1,\n    \"name\": \"okan\",\n    \"email\": \"okan@gmail.com\"\n  }\n}\n```\n\n**Error Response (401):**\n```json\n{\n  \"message\": \"Email atau password salah\"\n}\n```"
+					},
+					"response": [
+						{
+							"name": "Success Response",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"email\": \"okan@gmail.com\",\n  \"password\": \"12345678\"\n}"
+								},
+								"url": {
+									"raw": "{{base_url}}/api/login",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"login"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n  \"message\": \"Login berhasil\",\n  \"token\": \"1|abc123def456ghi789\",\n  \"user\": {\n    \"id\": 1,\n    \"name\": \"okan\",\n    \"email\": \"okan@gmail.com\",\n    \"created_at\": \"2025-01-01T00:00:00.000000Z\",\n    \"updated_at\": \"2025-01-01T00:00:00.000000Z\"\n  }\n}"
+						}
+					]
+				},
+				{
+					"name": "Logout",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/logout",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"logout"
+							]
+						},
+						"description": "Logout endpoint untuk menghapus authentication token\n\n**Headers:**\n- Authorization: Bearer {token}\n\n**Success Response (200):**\n```json\n{\n  \"message\": \"Logout berhasil\"\n}\n```"
+					},
+					"response": [
+						{
+							"name": "Success Response",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{token}}"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/api/logout",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"logout"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [],
+							"cookie": [],
+							"body": "{\n  \"message\": \"Logout berhasil\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Get Current User",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/me",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"me"
+							]
+						},
+						"description": "Mendapatkan informasi user yang sedang login\n\n**Headers:**\n- Authorization: Bearer {token}\n\n**Success Response (200):**\n```json\n{\n  \"user\": {\n    \"id\": 1,\n    \"name\": \"okan\",\n    \"email\": \"okan@gmail.com\"\n  }\n}\n```"
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Users",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/users",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"users"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Stock Management",
+			"item": [
+				{
+					"name": "Get All Stock",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/stock",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"stock"
+							]
+						},
+						"description": "Mendapatkan informasi stok semua produk\n\n**Headers:**\n- Authorization: Bearer {token}\n\n**Success Response (200):**\n```json\n{\n  \"success\": true,\n  \"data\": [\n    {\n      \"id\": 1,\n      \"name\": \"Cappuccino\",\n      \"stock\": 50,\n      \"min_stock\": 10,\n      \"is_available\": true,\n      \"status\": \"in_stock\"\n    }\n  ]\n}\n```"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Stock Summary",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/stock/summary",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"stock",
+								"summary"
+							]
+						},
+						"description": "Mendapatkan ringkasan statistik stok\n\n**Success Response (200):**\n```json\n{\n  \"success\": true,\n  \"data\": {\n    \"total_products\": 4,\n    \"available_products\": 4,\n    \"out_of_stock\": 0,\n    \"low_stock_products\": 1,\n    \"total_stock_value\": 2450000\n  }\n}\n```"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Low Stock Products",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/stock/low-stock",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"stock",
+								"low-stock"
+							]
+						},
+						"description": "Mendapatkan produk dengan stok rendah"
+					},
+					"response": []
+				},
+				{
+					"name": "Update Product Stock",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"action\": \"increase\",\n  \"quantity\": 10,\n  \"reason\": \"Restok barang\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/stock/1",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"stock",
+								"1"
+							]
+						},
+						"description": "Update stok produk\n\n**Request Body:**\n- action (enum): increase, decrease, set\n- quantity (integer): Jumlah\n- reason (string, optional): Alasan perubahan\n\n**Success Response (200):**\n```json\n{\n  \"success\": true,\n  \"message\": \"Stok berhasil diupdate\",\n  \"data\": {\n    \"product_id\": 1,\n    \"product_name\": \"Cappuccino\",\n    \"old_stock\": 50,\n    \"new_stock\": 60,\n    \"action\": \"increase\",\n    \"quantity\": 10\n  }\n}\n```"
+					},
+					"response": []
+				},
+				{
+					"name": "Bulk Update Stock",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"updates\": [\n    {\n      \"product_id\": 1,\n      \"action\": \"increase\",\n      \"quantity\": 20,\n      \"reason\": \"Restok bulanan\"\n    },\n    {\n      \"product_id\": 2,\n      \"action\": \"set\",\n      \"quantity\": 50,\n      \"reason\": \"Inventory count\"\n    }\n  ]\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/stock/bulk-update",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"stock",
+								"bulk-update"
+							]
+						},
+						"description": "Update stok multiple produk sekaligus"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Product Management",
+			"item": [
+				{
+					"name": "Get All Products",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/products",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"products"
+							]
+						},
+						"description": "Mendapatkan semua produk yang tersedia\n\n**Success Response (200):**\n```json\n[\n  {\n    \"id\": 1,\n    \"name\": \"Cappuccino\",\n    \"image\": \"https://example.com/cappuccino.jpg\",\n    \"price\": 10000.00,\n    \"category\": \"coffee\",\n    \"created_at\": \"2025-01-01T00:00:00.000000Z\",\n    \"updated_at\": \"2025-01-01T00:00:00.000000Z\"\n  },\n  {\n    \"id\": 2,\n    \"name\": \"Matcha Latte\",\n    \"image\": \"https://example.com/matcha.jpg\",\n    \"price\": 15000.00,\n    \"category\": \"non_coffee\"\n  }\n]\n```"
+					},
+					"response": []
+				},
+				{
+					"name": "Create Product",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "name",
+									"value": "Espresso",
+									"type": "text"
+								},
+								{
+									"key": "category",
+									"value": "coffee",
+									"description": "coffee, non_coffee, makanan, cemilan",
+									"type": "text"
+								},
+								{
+									"key": "price",
+									"value": "8000",
+									"type": "text"
+								},
+								{
+									"key": "image",
+									"description": "Optional image file (jpeg, png, jpg, gif, max 2MB)",
+									"type": "file",
+									"src": []
+								}
+							]
+						},
+						"url": {
+							"raw": "{{base_url}}/api/products",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"products"
+							]
+						},
+						"description": "Membuat produk baru (Requires Authentication)\n\n**Headers:**\n- Authorization: Bearer {token}\n\n**Form Data:**\n- name (string, required): Nama produk\n- category (enum, required): coffee, non_coffee, makanan, cemilan\n- price (numeric, required): Harga produk\n- image (file, optional): Gambar produk (jpeg, png, jpg, gif, max 2MB)\n\n**Success Response (201):**\n```json\n{\n  \"message\": \"Produk berhasil ditambahkan\",\n  \"product\": {\n    \"id\": 5,\n    \"name\": \"Espresso\",\n    \"category\": \"coffee\",\n    \"price\": 8000,\n    \"image\": \"products/abc123.jpg\"\n  }\n}\n```"
+					},
+					"response": []
+				},
+				{
+					"name": "Update Product",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "name",
+									"value": "Espresso Updated",
+									"type": "text"
+								},
+								{
+									"key": "category",
+									"value": "coffee",
+									"type": "text"
+								},
+								{
+									"key": "price",
+									"value": "9000",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{base_url}}/api/products/1",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"products",
+								"1"
+							]
+						},
+						"description": "Update produk berdasarkan ID (Requires Authentication)"
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Product",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/products/1",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"products",
+								"1"
+							]
+						},
+						"description": "Hapus produk berdasarkan ID (Requires Authentication)"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Order Management",
+			"item": [
+				{
+					"name": "Get All Orders",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/orders",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"orders"
+							]
+						},
+						"description": "Mendapatkan semua pesanan dengan detail items\n\n**Success Response (200):**\n```json\n[\n  {\n    \"id\": 1,\n    \"order_id\": \"ORD-abc123\",\n    \"customer_name\": \"John Doe\",\n    \"customer_meja\": \"A1\",\n    \"customer_phone\": \"081234567890\",\n    \"notes\": \"Gula sedikit\",\n    \"total_price\": 25000.00,\n    \"fee_platform\": 1000.00,\n    \"total_bayar\": 26000.00,\n    \"payment_status\": \"sukses\",\n    \"status\": \"Selesai\",\n    \"payment_method\": \"midtrans\",\n    \"created_at\": \"2025-01-01T00:00:00.000000Z\",\n    \"order_items\": [\n      {\n        \"id\": 1,\n        \"product_name\": \"Cappuccino\",\n        \"quantity\": 2,\n        \"price\": 10000.00,\n        \"subtotal\": 20000.00\n      }\n    ]\n  }\n]\n```"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Order by ID",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/orders/1",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"orders",
+								"1"
+							]
+						},
+						"description": "Mendapatkan detail pesanan berdasarkan ID\n\n**URL Parameters:**\n- id (integer): ID pesanan\n\n**Success Response (200):**\n```json\n{\n  \"id\": 1,\n  \"order_id\": \"ORD-abc123\",\n  \"customer_name\": \"John Doe\",\n  \"customer_meja\": \"A1\",\n  \"customer_phone\": \"081234567890\",\n  \"notes\": \"Gula sedikit\",\n  \"total_price\": 25000.00,\n  \"fee_platform\": 1000.00,\n  \"total_bayar\": 26000.00,\n  \"payment_status\": \"sukses\",\n  \"status\": \"Selesai\",\n  \"payment_method\": \"midtrans\",\n  \"order_items\": [...]\n}\n```"
+					},
+					"response": []
+				},
+				{
+					"name": "Create Cash Order",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Jane Smith\",\n  \"phone\": \"081987654321\",\n  \"customer_meja\": \"B2\",\n  \"note\": \"Tanpa gula\",\n  \"items\": [\n    {\n      \"name\": \"Cappuccino\",\n      \"price\": 10000,\n      \"quantity\": 2\n    },\n    {\n      \"name\": \"Nasi Goreng\",\n      \"price\": 18000,\n      \"quantity\": 1\n    }\n  ]\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/order/cash",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"order",
+								"cash"
+							]
+						},
+						"description": "Membuat pesanan cash (langsung dibayar) - Requires Authentication\n\n**Headers:**\n- Authorization: Bearer {token}\n- Content-Type: application/json\n\n**Request Body:**\n- name (string, required): Nama pelanggan\n- phone (string, required): Nomor telepon\n- customer_meja (string, required): Nomor meja\n- note (string, optional): Catatan pesanan\n- items (array, required): Array item pesanan\n  - name (string, required): Nama produk\n  - price (numeric, required): Harga produk\n  - quantity (integer, required): Jumlah\n\n**Success Response (200):**\n```json\n{\n  \"success\": true,\n  \"message\": \"Pesanan berhasil disimpan dan stok telah diupdate.\",\n  \"order\": {\n    \"id\": 1,\n    \"order_id\": \"INV-1234567890\",\n    \"customer_name\": \"Jane Smith\",\n    \"customer_meja\": \"B2\",\n    \"customer_phone\": \"081987654321\",\n    \"notes\": \"Tanpa gula\",\n    \"total_price\": 38000,\n    \"fee_platform\": 1260,\n    \"total_bayar\": 39260,\n    \"status\": \"Selesai\",\n    \"payment_status\": \"sukses\",\n    \"payment_method\": \"cash\",\n    \"order_items\": [\n      {\n        \"id\": 1,\n        \"order_id\": 1,\n        \"product_name\": \"Cappuccino\",\n        \"quantity\": 2,\n        \"price\": 10000,\n        \"subtotal\": 20000\n      },\n      {\n        \"id\": 2,\n        \"order_id\": 1,\n        \"product_name\": \"Nasi Goreng\",\n        \"quantity\": 1,\n        \"price\": 18000,\n        \"subtotal\": 18000\n      }\n    ]\n  },\n  \"payment_details\": {\n    \"total_order\": 38000,\n    \"fee_platform\": 1260,\n    \"total_bayar\": 39260,\n    \"estimasi_potongan_midtrans\": 275,\n    \"dana_masuk_platform\": 38985,\n    \"owner_terima\": 38000,\n    \"platform_terima\": 985\n  }\n}\n```"
+					},
+					"response": []
+				},
+				{
+					"name": "Update Payment Status",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/orders/payment-status/ORD-123456",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"orders",
+								"payment-status",
+								"ORD-123456"
+							]
+						},
+						"description": "Update status pembayaran pesanan menjadi sukses\n\n**URL Parameters:**\n- orderId (string): ID pesanan (order_id)\n\n**Success Response (200):**\n```json\n{\n  \"message\": \"Status pembayaran berhasil diperbarui menjadi sukses\"\n}\n```"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Order Fee Details",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/orders/fee-details/1",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"orders",
+								"fee-details",
+								"1"
+							]
+						},
+						"description": "Mendapatkan detail perhitungan fee untuk pesanan tertentu\n\n**URL Parameters:**\n- id (integer): ID pesanan\n\n**Success Response (200):**\n```json\n{\n  \"total_order\": 38000,\n  \"fee_platform\": 1260,\n  \"total_bayar\": 39260,\n  \"estimasi_potongan_midtrans\": 275,\n  \"dana_masuk_platform\": 38985,\n  \"owner_terima\": 38000,\n  \"platform_terima\": 985\n}\n```"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Analytics",
+			"item": [
+				{
+					"name": "Get Pendapatan",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/pendapatan?type=day&year=2025&month=9",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"pendapatan"
+							],
+							"query": [
+								{
+									"key": "type",
+									"value": "day",
+									"description": "day, week, month"
+								},
+								{
+									"key": "year",
+									"value": "2025"
+								},
+								{
+									"key": "month",
+									"value": "9",
+									"description": "Optional"
+								},
+								{
+									"key": "day",
+									"value": "",
+									"description": "Optional",
+									"disabled": true
+								}
+							]
+						},
+						"description": "Mendapatkan data pendapatan berdasarkan periode waktu\n\n**Query Parameters:**\n- type (string, optional): day, week, month (default: day)\n- year (integer, optional): Tahun (default: tahun sekarang)\n- month (integer, optional): Bulan (1-12)\n- day (integer, optional): Tanggal (1-31)\n\n**Success Response (200):**\n```json\n[\n  {\n    \"label\": \"2025-09-01\",\n    \"jumlah\": 250000\n  },\n  {\n    \"label\": \"2025-09-02\",\n    \"jumlah\": 320000\n  }\n]\n```"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Produk Terlaris",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/api/produk-terlaris?year=2025&month=9",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"produk-terlaris"
+							],
+							"query": [
+								{
+									"key": "year",
+									"value": "2025"
+								},
+								{
+									"key": "month",
+									"value": "9",
+									"description": "Optional"
+								}
+							]
+						},
+						"description": "Mendapatkan data produk terlaris berdasarkan periode waktu\n\n**Query Parameters:**\n- year (integer, optional): Tahun (default: tahun sekarang)\n- month (integer, optional): Bulan (1-12)\n\n**Success Response (200):**\n```json\n[\n  {\n    \"product_name\": \"Cappuccino\",\n    \"total_terjual\": 120\n  },\n  {\n    \"product_name\": \"Nasi Goreng\",\n    \"total_terjual\": 85\n  }\n]\n```"
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "http://localhost:8000"
+		},
+		{
+			"key": "token",
+			"value": "1|LWhprsdW7OJlOpHLR9MbmNWouVOYgna88oUIH9eD89583f03"
+		}
+	]
+}

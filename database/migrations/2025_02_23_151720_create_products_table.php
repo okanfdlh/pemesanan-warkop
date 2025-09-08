@@ -17,6 +17,9 @@ return new class extends Migration
             $table->string('image'); // URL atau path gambar
             $table->decimal('price', 13, 2);
             $table->enum('category', ['coffee', 'non_coffee', 'makanan', 'cemilan']);
+            $table->integer('stock')->default(0);
+            $table->integer('min_stock')->default(5);
+            $table->boolean('is_available')->default(true);
             $table->timestamps();
         });
     }
